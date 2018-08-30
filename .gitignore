@@ -1,0 +1,9 @@
+
+*.vtc
+*.gz
+*.out
+*.log
+*.blg
+*.bbl
+*.aux
+RIC.pdf
