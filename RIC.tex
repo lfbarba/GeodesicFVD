@@ -1,61 +1,102 @@
-\documentclass[a4paper,UKenglish]{socg-lipics-v2018}
-%This is a template for producing LIPIcs articles. 
-%See lipics-manual.pdf for further information.
-%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
-%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
-% for section-numbered lemmas etc., use "numberwithinsect"
- 
-\usepackage{microtype,xspace,thm-restate}%if unwanted, comment out or use option "draft"
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm,graphicx,graphics,epsf}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+
+
+\usepackage{microtype,thm-restate}%if unwanted, comment out or use option "draft"
+\usepackage{algorithmic}
+\usepackage{algorithm}
 \usepackage{hyperref,color}
+\usepackage[numbers]{natbib}
+%\usepackage{comment}
+%\usepackage{url}
+\usepackage{xspace}
+\usepackage{lineno}
+\graphicspath{{img/}} % No need to write this for every figure
+%\linenumbers
+
+
+\usepackage{geometry}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+
+
 
 %\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
 
-\bibliographystyle{plain}% the recommended bibstyle
-
 % Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Optimal algorithm for geodesic farthest-point Voronoi diagrams}
-\titlerunning{Geodesic farthest-point Voronoi diagrams} %optional, in case that the title is too long; the running title should fit into the top page column
+\title{Geodesic farthest-point Voronoi diagram in linear time}
 
-\author{Luis Barba}{Department of Computer Science, ETH Z\"urich, Switzerland}{luis.barba@inf.ethz.ch}{}{}
+\author{Luis Barba\thanks{Department of Computer Science, ETH Z\"urich, Switzerland, \texttt{luis.barba@inf.ethz.ch}}}
+\date{} 
+%\documentclass[a4paper,UKenglish]{socg-lipics-v2018}
+%%This is a template for producing LIPIcs articles. 
+%%See lipics-manual.pdf for further information.
+%%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
+%%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
+%% for section-numbered lemmas etc., use "numberwithinsect"
+% 
+%\usepackage{microtype,xspace,thm-restate}%if unwanted, comment out or use option "draft"
+%\usepackage{hyperref,color}
+%
+%%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+%
+%\bibliographystyle{plain}% the recommended bibstyle
+%
+%% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{Optimal algorithm for geodesic farthest-point Voronoi diagrams}
+%\titlerunning{Geodesic farthest-point Voronoi diagrams} %optional, in case that the title is too long; the running title should fit into the top page column
+%
+%\author{Luis Barba}{Department of Computer Science, ETH Z\"urich, Switzerland}{luis.barba@inf.ethz.ch}{}{}
+%
+%
+%\authorrunning{L. Barba} %mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
+%
+%\Copyright{Luis Barba}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+%
+%\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
+%
+%\keywords{Dummy keyword}%mandatory
+%
+%\category{}%optional, e.g. invited paper
+%
+%\relatedversion{}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
+%
+%\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
+%
+%\funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+%
+%%\acknowledgements{I want to thank \dots}%optional
+%
+%%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\EventEditors{John Q. Open and Joan R. Access}
+%\EventNoEds{2}
+%\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
+%\EventShortTitle{CVIT 2016}
+%\EventAcronym{CVIT}
+%\EventYear{2016}
+%\EventDate{December 24--27, 2016}
+%\EventLocation{Little Whinging, United Kingdom}
+%\EventLogo{}
+%\SeriesVolume{42}
+%\ArticleNo{23}
+%%\nolinenumbers %uncomment to disable line numbering
+%%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\authorrunning{L. Barba} %mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
 
-\Copyright{Luis Barba}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
-
-\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
-
-\keywords{Dummy keyword}%mandatory
-
-\category{}%optional, e.g. invited paper
-
-\relatedversion{}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
-
-\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
-
-\funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
-
-\acknowledgements{I want to thank \dots}%optional
-
-%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\EventEditors{John Q. Open and Joan R. Access}
-\EventNoEds{2}
-\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
-\EventShortTitle{CVIT 2016}
-\EventAcronym{CVIT}
-\EventYear{2016}
-\EventDate{December 24--27, 2016}
-\EventLocation{Little Whinging, United Kingdom}
-\EventLogo{}
-\SeriesVolume{42}
-\ArticleNo{23}
-%\nolinenumbers %uncomment to disable line numbering
-%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-\newtheorem{observation}[theorem]{Observation}
+%\newtheorem{observation}[theorem]{Observation}
 
 \newcommand{\icell}[1][i]{${#1}$-patch\xspace}
 \newcommand{\icells}[1][i]{${#1}$-patches\xspace}
@@ -99,7 +140,7 @@ Let $P$ be a simple polygon with $n$ vertices.
 For any two points in $P$, the geodesic distance between them is the length of the shortest path that connects them among all paths contained in $P$. 
 Given a set $\s$ of $m$ sites being a subset of  the vertices of $P$, we present a randomized algorithm to compute the geodesic farthest-point Voronoi diagram of $\s$ in $P$ running in expected $O(n + m)$ time. 
 That is, a partition of $P$ into cells, at most one cell per site, such that every point in a cell has the same farthest site with respect to the geodesic distance. 
-In particular, this algorithm can be extended to run in expected $O(n + m\log m)$ time when $\s$ is an arbitrary set of sites contained in $P$, thereby solving the open problem posed by Mitchell in Chapter 27 of the Handbook of Computational Geometry.
+In particular, this algorithm can be extended to run in expected $O(n + m\log m)$ time when $\s$ is an arbitrary set of $m$ sites contained in $P$, thereby solving the open problem posed by Mitchell in Chapter 27 of the Handbook of Computational Geometry.
 \end{abstract}
 
 
@@ -108,13 +149,15 @@ In particular, this algorithm can be extended to run in expected $O(n + m\log m)
 Let $P$ be a simple $n$-gon.
 Let $\s$ be a set of $m\geq 3$ weighted \emph{sites} (points) contained in $V(P)$, where $V(P)$ denotes the set of vertices of $P$. 
 That is, we have a function $w:\s\to \mathbb{R}$ that assigns to each site of $\s$ a non-negative weight. 
-We extend this function to any point in $P$ by setting $w(x) = 0$ for all $x\in P\setminus \s$.
+We also extend the weight function to any point in $P$ by setting $w(x) = 0$ for all $x\in P\setminus \s$.
+While we could allow the sites to lie anywhere on the boundary, $\partial P$, of $P$, as long as we know their clockwise order along $\partial P$, we can split the edges of $P$ at the sites, and produce a new polygon where each site coincides with a vertex. Therefore, we assume that $\s\subseteq V(P)$.
+
 Given two points $x,y$ in $P$ (either on the boundary or in the interior), the \emph{geodesic path} $\p{x}{y}$ is the shortest path contained in $P$ connecting $x$ with $y$. If the straight-line segment connecting $x$ with $y$ is contained in $P$, then $\p{x}{y}$ is the straight-line segment~$xy$. 
 Otherwise, $\p{x}{y}$ is a polygonal chain whose vertices (other than its endpoints) are  reflex vertices of $P$. 
 We refer the reader to~\cite{m-gspno-00} for more information on geodesic paths.
 
-For a segment $xy$, we denote its Euclidean length by $|xy|$. For path, its \emph{Euclidean length} is the sum of the Euclidean length of all of its segments. Given two points $x$ and $y$ in $P$, their \emph{geodesic distance} $\g{x}{y}$ is the Euclidean length of $\p{x}{y}$.
-The \emph{weighted geodesic distance} (or simply \emph{$w$-distance}) between two points $x$ and $y$ in $P$, denoted by $\dd{x}{y}$, is the sum of $w(x)$ with the Euclidean length of $\p{x}{y}$, i.e., $\dd{x}{y} = w(x) + \g{x}{y}$. Notice that if all weights are set to zero, then our distance coincides with the classical definition of geodesic distance~\cite{m-gspno-00}. 
+For a segment $xy$, we denote its Euclidean length by $|xy|$. For a path, its \emph{Euclidean length} is the sum of the Euclidean length of all of its segments. Given two points $x$ and $y$ in $P$, their \emph{geodesic distance} $\g{x}{y}$ is the Euclidean length of $\p{x}{y}$.
+The \emph{weighted geodesic distance} (or simply \emph{$w$-distance}) between two points $x$ and $y$ in $P$, denoted by $\dd{x}{y}$, is the sum of $w(x)$ with the Euclidean length of $\p{x}{y}$, i.e., $\dd{x}{y} = w(x) + \g{x}{y}$. Notice that if all weights are set to zero, then the $w$-distance coincides with the classical definition of geodesic distance~\cite{m-gspno-00}. 
 Moreover, notice that this distance is not symmetric unless the weights of $x$ and $y$ coincide. 
 
 Given a point $x\in P$, an \emph{$\s$-farthest site} of $x$ in $P$ is a site  $s$ of  $\s$ whose $w$-distance to $x$ is maximized.
@@ -122,33 +165,35 @@ To ease the description, we assume that each vertex of $P$ has a unique $\s$-far
 This \emph{general position} condition was also assumed in~\cite{ahn2015linear,aronov1993furthest,oh2016farthest} and can be obtained by applying a slight perturbation~\cite{edelsbrunner1990simulation}.
 
 For a site $s\in \s$, let $\cell{s,\s} = \{x\in P: \dd{s}{x} \geq \dd{s'}{x}, \forall s'\in \s\}$ be the (weighted farthest) \emph{Voronoi cell} of $s$ (in $P$ with respect to $\s$). 
-That is, $\cell{s,\s}$ consists of all the points of $P$ that are farther from $s$ than from any other site of $\s$ according to our $w$-distance.
-The union of all Voronoi cells covers the entire polygon $P$, and the closure of the set $\interior{P} \setminus \cup_{s \in \s} \cell{s,\s}$ defines the (weighted farthest) \emph{Voronoi graph} of $\s$ in $P$. 
+That is, $\cell{s,\s}$ consists of all the points of $P$ that have $s$ as one of their $\s$-farthest sites.
+The union of all Voronoi cells covers the entire polygon $P$, and the closure of the set $\interior{P} \setminus \cup_{s \in \s} \interior{\cell{s,\s}}$ defines the (weighted farthest) \emph{Voronoi graph} of $\s$ in $P$. 
 
 The Voronoi graph together with the set of Voronoi cells defines the \emph{weighted geodesic farthest-point
 Voronoi diagram} (or simply \emph{FVD}) of $\s$ in $P$, denoted by $\vd{\s}$.
-Thus, we indistinctively refer to $\vd{\s}$ as a graph or as a set of Voronoi cells; see Figure~\ref{fig:FVD}.
+Thus, we indistinctively refer to $\vd{\s}$ as a graph or as a set of Voronoi cells; see Figure~\ref{fig:WeightsNotHarder}.
 
 \begin{figure}[t]
 \centering
-\includegraphics{Simplification.pdf}
+\includegraphics{imgIntroVoronoi.pdf}
 %[width=1\textwidth]
-\caption{$a)$ A simple polygon $P$ with a set $\s$ of six sites. $b)$ The FVD of $\s$, where each region has the color of its site.
-$c)$ The simplification transform, to be introduced in Section~\ref{section:Simplification}, allows to redefine the problem inside a simpler polygon $G$ and obtain the same FVD.}
-\label{fig:FVD}
+\caption{$a)$ A simple polygon $P$ with a set $\s$ of six weighted sites and their FVD. $b)$ A new polygon $P'$ where a path of length $w(s)$ is added at the location of each site $s\in \s$. Then the weight is set to zero and moved at the endpoint of its corresponding path.
+$c)$ The FVD of $\s$ in $P$ coincides with the FVD of the new sites in the new polygon $P'$.}
+\label{fig:WeightsNotHarder}
 \end{figure}
 
-Notice that adding non-zero weights to the sites does not make the problem harder. 
-To see this, consider a new polygon $P'$, where at the location of each site $s\in \s$, a path of length $w(s)$ is attached to the boundary of $P$ and the site is given weight zero and is moved to the other endpoint of this path; see Figure~\ref{} for an illustration. 
-While we obtain a weakly simple polygon, the new set of sites in $P'$ defines the same FVD as $\s$ in $P$. 
-Therefore, a weighted FVD as described in this paper has the same properties as the classical farthest Voronoi diagram constructed using the geodesic distance~\cite{aronov1993furthest}. 
+Notice that having non-zero weights on our set of sites does not make the problem harder. 
+To see this, consider a new polygon $P'$, where at the location of each site $s\in \s$, a path of length $w(s)$ is attached to the boundary of $P$. 
+Additionally, the site $s$ is given weight zero and is moved to the other endpoint of this path; see Figure~\ref{fig:WeightsNotHarder} for an illustration. 
+In this way we obtain a new weakly simple polygon $P'$ and a new set of sites $\s'$ that defines the same FVD as $\s$ in $P$. 
+Therefore, a weighted FVD as described in this paper has the same properties as the classical farthest-point Voronoi diagram constructed using the geodesic distance~\cite{aronov1993furthest}. 
 In particular, we know that the Voronoi graph is a tree with leaves on the boundary of $P$.
-Each edge of this graph consists of a sequence of straight-lines and hyperbolic arcs that may intersect $\partial P$ only at its endpoints~\cite{aronov1993furthest}. Thus, we refer to the Voronoi graph as a \emph{Voronoi tree} from now on.
-In this paper, we decide to work with weighted sites only to ease the description of the recursive construction that our algorithm uses. 
+Also, each edge of this graph consists of a sequence of straight-lines and hyperbolic arcs that may intersect $\partial P$ only at its endpoints~\cite{aronov1993furthest}. 
+Thus, we refer to the Voronoi graph as a \emph{Voronoi tree} from now on.
+While working with weighted sites might seem an unnecessary complication, we decided to work with them to ease the description of the recursive construction that our algorithm uses. 
 
 Let $\F{x, \s}$ be the function that maps each $x\in P$ to the $w$-distance to a $\s$-farthest neighbor of $x$ (i.e., $\F{x, \s} = \dd{x}{\f{x, \s}}$).
-Notice that $\F{x, \s}$ can be seen as the upper envelope of the geodesic functions from the sites in $\s$.
-Throughout the paper, we will play with this alternative way of thinking of Voronoi diagrams.
+Notice that $\F{x, \s}$ can be seen as the upper envelope of the $w$-distance functions from the sites in $\s$.
+Throughout the paper, we will play with this alternative way of thinking of Voronoi diagrams as graphs or upper envelopes.
 A point $c\in P$ that minimizes $\F{x, \s}$ is called the \emph{geodesic center} of $P$. 
 Similarly, a point $s\in P$ that maximizes $\F{x, \s}$ (together with $\f{s}$) forms a \emph{diametral pair} and their $w$-distance is the \emph{geodesic diameter}. 
 
@@ -177,7 +222,7 @@ In particular, a linear time algorithm for the simpler case with sites on the bo
 Recently, not only farthest-point Voronoi diagrams have received attention. 
 For the nearest-point geodesic Voronoi diagram, two papers have focused in finding algorithms matching the same lower bound of $\Omega(n + m\log m)$~\cite{chihungVoronoi,oh2017voronoi}.
 While the best results still work only for a limited range of $m$ with respect to $n$, both papers have appeared in consecutive years in the Symposium on Computational Geometry (SoCG).
-However, the techniques in these paper use data structures that require logarithmic factors, and hence is not conceivable to transform them to obtain a linear algorithm for the case when the sites are vertices of the polygon. 
+However, the techniques in these papers use data structures that require logarithmic factors, and hence is not conceivable to transform them to obtain a linear algorithm for the case when the sites are vertices of the polygon. 
 
 \textbf{Our results.} 
 In this paper, we provide an optimal, albeit randomized, algorithm to compute $\vd{\s}$ for the special case where all sites of $\s$ are vertices of $P$.
@@ -195,12 +240,12 @@ By bounding the expected size of each cell using backwards analysis, the increme
 
 In the geodesic case however, the complexity of a cell depends not only on the set of sites, but also on the complexity of the polygon~\cite{aronov1989geodesic}. 
 Already the FVD of 3 sites can have $\Omega(n)$ vertices and arcs.
-While this can be dealt with using backwards analysis, there is an additional complication when using geodesic functions.
+Moreover, there is an additional complication when using $w$-distances.
 To achieve an incremental construction, one would need to have at hand a complete description of the $w$-distance function $\dd{s}{x}$ inside of the newly created cell for the inserted site $s$.
 If this function is precomputed in the entire polygon, this would be too costly. 
 Thus, one needs to define these functions only at the specific locations where they are needed. 
 An additional problem is that for a RIC, the first inserted sites must have their $w$-distance defined in almost the entire polygon.
-Thus, already the description-size of the $w$-distances needed for the first batch (say the first constant fraction) of sites becomes super linear. 
+Thus, already the description-size of the $w$-distances needed for the first batch of sites (say the the first $m/100$) becomes super linear. 
 Therefore, it seems hopeless to try a RIC without somehow reducing the complexity of $P$ throughout the process. 
 Nevertheless, a RIC works great for all the sites that come after this first batch. 
 Intuitively,  the latter insertions define smaller cells, and the space needed to describe their $w$-distances can be nicely bounded.
@@ -209,14 +254,14 @@ Thus, the main question is how to deal with this first fraction of the sites.
 In this paper we overcome these difficulties with a novel approach, and manage to deal with this first fraction of the sites using pruning.
 First, we partition randomly the sites into $B$ and $R$, where $|B| \leq \alpha m$ for some constant $0 < \alpha < 1$ (Section~\ref{section:First phase}).
 Then, we construct recursively an ``approximation'' of the FVD of $B$ (Section~\ref{section:Smaller Polygon}). 
-To this end, we define a new weakly simple polygon $Q$ containing $B$ with lower complexity than $P$. 
+To this end, we define a new weakly simple polygon $Q$ containing $B$ with only a constant fraction of the vertices of $P$. 
 Essentially we prune from $P$ all the vertices that have nothing to do with geodesic paths connecting sites in $B$ with points in their respective Voronoi cells. 
 Our approximation comes from recursively computing the FVD of $B$ in $Q$. 
-Using probabilistic arguments, we show that the complexity of $Q$ decreases sufficiently so that the recursive call leads to an linear overall running time.
+We show that the complexity of $Q$ decreases sufficiently so that the recursive call leads to a linear overall running time.
 
 Reducing the complexity however comes with a price. The $w$-distance from sites  of $B$ inside of $Q$ turns to be only ``similar'' to that in $P$.
 However, we make sure that these functions are accurate where it matters. 
-After computing this ``approximation'' diagram for $B$, we need to deal with the sites of $R$. 
+After computing this ``Voronoi-like'' diagram for~$B$, we need to deal with the sites of $R$. 
 To this end, we turn to the RIC (Section~\ref{section: Insertion process}).
 We compute the $w$-distance from sites in $R$ only inside of specific parts of $P$, making sure that they suffice for our purpose, while their overall complexity remains linear.
 Another challenge comes from the fact that the $w$-distances from $B$ are with respect to $Q$, while the ones from $R$ are not.
@@ -228,7 +273,7 @@ Thus, inserting all sites of $R$ can be done in expected $O(n+ m)$ time.
 After inserting the sites of $R$, the expected total running time of our algorithm is given by the simple recurrence $\ex{T(n, m)} \leq T(n/2, m/2) + O(n+m) = O(n+ m)$.
 The crucial aspect with our approach that could not be achieved before this paper, is the reduction in the complexity of the polygon. 
 Overall, we combine many different tools, from recursion, pruning, and randomization, together with all the machinery to deal with geodesic functions. 
-Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix. 
+%Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix. 
 
 \section{Preliminaries}
 
@@ -241,7 +286,7 @@ In particular, if $A\subseteq \partial P$, then the boundary of the geodesic hul
 Geodesic functions in weakly simple polygons behave in the exact same way as in simple polygons, and the existent machinery applies directly with no overhead~\cite{chang2014detecting}. 
 Thus, while many papers state their results for simple polygons, they applied directly to weakly simple polygons. 
 In particular, all results and tools presented in this paper apply directly to weakly simple polygons.
-This remark is crucial already in several recent papers~\cite{oh2016computing,oh2016farthest}.
+This remark is already crucial in several recent papers~\cite{oh2016computing,oh2016farthest}.
 
 \begin{lemma}[Restatement of Lemma 2 of~\cite{kpairpath}]\label{lemma:Geodesic hull computation}
 Let $A\subseteq \partial P$ be a set of $O(n)$ points sorted along~$\partial P$. 
@@ -290,16 +335,26 @@ Given a site $s\in \s$, the Voronoi cell $\cell{s, \s}$ is contained in the funn
 We are also interested in bounding the total complexity of the funnels of sites in $\s$.
 Given a polygon $Q$, let $|Q|$ denotes its \emph{combinatorial complexity} (or just \emph{complexity}), i.e., the number of vertices and edges used to represent it. 
 
-\begin{lemma}[Consequence of Corollary 3.8 and 4.4 of~\cite{ahn2015linear}]\label{lemma:Complexity of funnels}
+\begin{lemma}[Consequence of Corollaries 3.8 and 4.4 of~\cite{ahn2015linear}]\label{lemma:Complexity of funnels}
 Given an $n$-gon $P$ and a set $\s\subseteq V(P)$, $\sum_{s\in \s} |\funnel{s, \s}| = O(n)$.
-Moreover, all funnels can be computed in $O(n)$ time. 
+Also, all funnels can be computed in $O(n)$ time. 
 \end{lemma}
 
 \subsection{The simplification transform}\label{section:Simplification}
 
+\begin{figure}[t]
+\centering
+\includegraphics{imgSimplification.pdf}
+%[width=1\textwidth]
+\caption{$a)$ A simple polygon $P$ with a set $\s$ of six weighted sites and their FVD. $b)$ The polygon $H$ being the geodesic hull of $\LL$ and $\s$.
+$c)$ The simplification transform allows to redefine the problem inside a simpler polygon $G$ with a new set of weighted sites and obtain the same FVD.}
+\label{fig:FVD}
+\end{figure}
+
 The following transformation allows us to modify the input of our problem and assume some nice structural properties without loss of generality.
 In this section and for this transformation, we allow the given polygon $P$ to be weakly simple instead of a simple $n$-gon. 
-The result of the transformation we will describe produces always a simple polygon with a particular structure, which is crucial in the recursive calls of our algorithm.
+The result of the transformation described in this section takes a weakly simple polygon with a set of weighted sites as input, and produces a new simple polygon with a new set of weighted sites. Moreover, this resulting polygon has a particular structure that is crucial in the recursive calls of our algorithm.
+
 Let $\LL$ be the set of leaves of $\vd{\s}$.
 We first notice that we can focus on a specific geodesically convex subpolygon of $P$ to compute $\vd{\s}$.
 
@@ -317,13 +372,13 @@ Because this happens for each Voronoi cell of $\s$ in $H$, and since the leaves 
 
 While the geodesic hull $H$ of $\s\cup \LL$ in $P$ does not necessarily have lower complexity than $P$, it has some nice structure. 
 We know that its boundary consists of geodesic paths that connect consecutive points in $\s\cup \LL$ along $\partial P$.
-However, this geodesic hull $H$ is not necessarily a simple polygon. 
+However, this geodesic hull $H$ is not necessarily a simple polygon; see Figure~\ref{fig:FVD}. 
 To make it simple, we need to deal with ``dangling paths'' as follows.
 
 We say that a vertex of $H$ is \emph{$H$-open} if it is incident to its interior.
-For each $s\in \s$, let $a_s$ be the $H$-open vertex of $\funnel{s, \s}$ that is closest to $s$. 
+For each $s\in \s$, let $a_s$ be the $H$-open vertex of $\funnel{s, \s}$ that is geodesically closest to $s$. 
 Note that all paths from $s$ to any point in the interior of $H$ pass through $a_s$.
-However, as long as the length of the geodesic $\p{\s}{a_s}$ remains the same, the shape of the path is irrelevant. 
+However, as long as the length of the geodesic path $\p{\s}{a_s}$ remains the same, the shape of this path is irrelevant. 
 In fact, this is equivalent to giving $a_s$ a weight such that each distance measured from $a_s$ to points in the interior of $H$ has 
 an added value of $\dd{s}{a_s}$. 
 
@@ -340,15 +395,16 @@ With this new weight function, we can think of $\A$ as a set of weighted sites i
 %Thus, from now on we can assume that all our sites are weighted, and that distances are measured using the weighted distance function $\dd{s}{x}$ from any site $s\in \s$.
 
 \begin{restatable}{lemma}{ApexFVD}\label{lemma:ApexFVD}
-$[*]$ It holds that $\vd[G]{\A}$ and $\vd[P]{\s}$ have the same Voronoi trees.
+%$[*]$ 
+It holds that $\vd[G]{\A}$ and $\vd[P]{\s}$ have the same Voronoi trees.
 \end{restatable}
 %\newcommand{\ProofApexFVD}{
 %\ApexFVD*
 \begin{proof}
 Notice that $G$ is a subset of $H$ such that $int(G)\subset int(H)$.
 Let $s$ be a site of $\s$ and let $x\in G$. 
-Because $G$ is a geodesically convex subset of $P$, and since $a_s, x\in G$, we know that $\p[G]{a_s}{x} = \p{a_s}{x}$, and hence the length of these paths is simply $\dd{a_s}{x}$ . 
-Therefore, we know that  $\ddw[G]{a_s}{x} = w'(a_s) + \dd{a_s}{x} = \dd{s}{a_s} + \dd{a_s}{x} = \dd{s}{x}$.
+Because $G$ is a geodesically convex subset of $P$, and since $a_s, x\in G$, we know that $\p[G]{a_s}{x} = \p{a_s}{x}$, and hence the length of these paths is simply $\g{a_s}{x}$ . 
+Therefore, we know that  $\ddw[G]{a_s}{x} = w'(a_s) + \g{a_s}{x} = \dd{s}{a_s} + \g{a_s}{x} = \dd{s}{x}$.
 That is, the $w'$-distance from any site in $a_s \in \A$ to any point $x$ in $G$ is the same as the $w$-distance from the corresponding site in $s\in \s$ to the same point $x$ in $P$, which implies that $\cell[G]{s, \s} \subseteq \cell{s, \s}$. 
 Because this happens for each Voronoi cell of $\s$ in $G$, the Voronoi trees coincide. 
 \end{proof}
@@ -359,9 +415,9 @@ Recall that $\LL$ is the set containing each leaf of $\vd{\s}$ and that $m= |\s|
 Compute $\bvd{\s}$ and the funnel $\funnel{s, \s}$ of each site in $\s$ in total $O(n)$ time. 
 Because $\s\cup \LL\subseteq \partial P$ and has size $2 m = O(n)$, we can compute $H$ the geodesic hull of $\s\cup \LL$ in $P$ in $O(n)$ time using Lemma~\ref{lemma:Geodesic hull computation}. 
 After that, consider the set $\A$ of $H$-open vertices as defined above.
-Again, we can compute the geodesic hull of $\A\cup \LL$ in $P$, say $G$, in $O(n)$ time using Lemma~\ref{lemma:Geodesic hull computation}. 
+Again, we can compute the geodesic hull $G$ of $\A\cup \LL$ in $P$ in $O(n)$ time using Lemma~\ref{lemma:Geodesic hull computation}. 
 By Lemma~\ref{lemma:ApexFVD}, $\vd[G]{\A}$ and $\vd[P]{B}$ coincide, so we can forget about $P$ and $S$, and focus simply on $G$ and $\A$ to compute the FVD.
-We call this process the \emph{simplification transform}; see Figure~\ref{fig:FVD}$(c)$. 
+We call this process the \emph{simplification transform}; see Figure~\ref{fig:FVD}. 
 Note that the only convex vertices of $G$ are the sites in $\A$ and the leaves in $\LL$. 
 We summarize the main properties of this simplification transform in the following result.
 
@@ -485,8 +541,8 @@ That is, distances from $b$ can only get shorter, and only outside of $\cell{b, 
 
 To define these new distance functions, we define a new polygon $Q$ of lower complexity than $P$ (although $P\subseteq Q$).
 Let $V_B$ be the set consisting of all vertices of $P$ that belong to the funnel $\funnel{b, \s}$ of some $b\in B$.
-By Observation~\ref{obs: Complexity of B and R}, and since $P$ consists of at most $n+m\leq 2n$ vertices after the simplification transform, we know that the expected size of $V_B$ is at most $2\alpha n$. 
-Note that we could repeat the construction of $B$ and $R$ an expected constant number times, until we guarantee that $V_B\leq 2\alpha n)$.
+By Observation~\ref{obs: Complexity of B and R}, we know that the expected size of $V_B$ is at most $\alpha n$. 
+Note that we could repeat the construction of $B$ and $R$ an expected constant number times, until we guarantee that $V_B\leq \alpha n)$.
 Let $V_C$ be the set of convex vertices of~$P$. Recall that by our assumption that the simplification transform has already been applied to~$P$, 
 we know by Lemma~\ref{section:Simplification} that $V_C$ consists of the union of $\s$ and $\LL$, where $\LL$ is the set of leaves of $\vd{\s}$, i.e., $|V_C| \leq 2m$.
 Let $Q$ be a polygon defined as follows. 
@@ -495,7 +551,7 @@ By letting the rubber band free while keeping it attached at the pins, this rubb
 
 \begin{figure}[t]
 \centering
-\includegraphics{Reduction.pdf}
+\includegraphics{imgReduction.pdf}
 %[width=1\textwidth]
 \caption{$a)$ The polygon obtained from the simplification transform, and the decomposition of its boundary into red and blue chains.
 $b)$ The funnels of the sites in $B$ are depicted, as well as all vertices in $V_B$.
@@ -504,31 +560,42 @@ $c)$ The polygon $Q$ is obtained by taking a rubber band and keeping attached at
 \end{figure}
 
 \begin{restatable}{lemma}{PropertiesOfQ}\label{lemma:PropertiesOfQ}
-$[*]$ The polygon $Q$ contains $P$, is weakly simple, can be computed in expected $O(n)$ time, and has at most $2\alpha n + 4m$ vertices.
+%$[*]$ 
+The polygon $Q$ contains $P$, is weakly simple, can be computed in expected $O(n)$ time, and has at most $\alpha n + 4m$ vertices.
 Moreover, for $x,y\in P$, it holds that $\g[Q]{x}{y} \leq \g{x}{y}$. 
 In particular, for each $b\in B$ and $x\in P$, $\dd[Q]{b}{x} \leq \dd{b}{x}$, and if $x\in \cell{b, \s}$, then $\dd[Q]{b}{x} = \dd{b}{x}$.
 \end{restatable}
 %\begin{proof}[Sketch proof]
 %The boundary of $Q$ can be constructed by connecting consecutive  points in $V_B$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B$ in this domain). Only convex vertices of $P$ can be in these paths, and they can be visited only twice.
-%Therefore, $Q$ consists of at most $|V_B| + 2m = 2\alpha n + 2m$ reflex vertices; see full proof in Appendix. 
+%Therefore, $Q$ consists of at most $|V_B| + 2m = \alpha n + 2m$ reflex vertices; see full proof in Appendix. 
 %\end{proof}
 %\newcommand{\ProofPropertiesOfQ}{
 %\PropertiesOfQ*
 \begin{proof}
 The boundary of $Q$ can be constructed by connecting consecutive  points in $V_B\cup V_C$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B\cup V_C$ in this domain). 
 Note however that we do not need to deal with geodesics in domains with holes. 
-We can take a box sufficiently large to enclose $P$, and connect it using a small corridor with the left most vertex of $P$ to create a new polygon $P^\circ$ that essentially is a box with $P$ as a ``hole''; see Figure~\ref{}. 
+We can take a box sufficiently large to enclose $P$, and connect it using a small corridor with the left most vertex of $P$ to create a new polygon $P^\circ$ that essentially is a box with $P$ as a ``hole''; see Figure~\ref{fig:ConstructingQ}. 
 Using this polygon that can be constructed in linear time, we can compute the boundary of $Q$ in $O(n)$ time~\cite[Lemma 2]{kpairpath}.
+
+
 
 Note that the reflex vertices in $P$ become convex in $P^\circ$ and vice versa. 
 Therefore, the geodesic paths in $P^\circ$ connecting consecutive vertices of $V_B\cup V_C$ consist only of reflex vertices of $P^\circ$ other than their endpoints, i.e., they consist only of vertices of $V_C$.  
 Moreover, each vertex of $V_C$ can be visited only twice by the boundary of $Q$, and hence, it creates at most one new reflex vertex of $Q$.
-Therefore, $Q$ consists of at most $|V_B| +  2|V_C| \leq 2\alpha n + 4m$ vertices.
+Therefore, $Q$ consists of at most $|V_B| +  2|V_C| \leq \alpha n + 4m$ vertices.
 
 For $x,y\in P$, the geodesic $\p{x}{y}$ is also contained in $Q$. Thus, their geodesic distance in $Q$ can only get shorter, i.e., $\g[Q]{x}{y} \leq \g{x}{y}$.
 Moreover, for some $b\in B$, notice that $V_B$ contains all vertices of $\funnel{b, \s}$. Therefore, for $x\in \cell{b,\s}$, all vertices in the geodesic $\p{b}{x}$ are still on $Q$, i.e., $\dd[Q]{b}{x} = \dd{b}{x}$. Moreover, if $x\in P$, but not in $\cell{b,\s}$, then the path to $x$ can only become shorter, i.e., $\dd[Q]{b}{x} \leq \dd{b}{x}$.
 \end{proof}
 %}
+
+\begin{figure}[t]
+\centering
+\includegraphics{imgConstructingQ.pdf}
+%[width=1\textwidth]
+\caption{The algorithmic construction of $Q$ described in the proof of Lemma~\ref{lemma:PropertiesOfQ}.}
+\label{fig:ConstructingQ}
+\end{figure}
 
 Our plan is now to compute the FVD of $B$ in the new polygon $Q$, and then use this as a ``good'' approximation of $\vd{B}$ in $P$. 
 With good, we mean that the red sites can be randomly inserted in this diagram, and that the result of this whole process is indeed $\vd{\s}$. 
@@ -544,11 +611,11 @@ We will prove this properties in the next section, but for now, we focus on desc
 %Thus, the convex vertices in $G$ are exactly the points in $\LL[B,Q]\cup \A$. 
 %Since $|\LL[B,Q]| = |B| = |\A| \leq \alpha m$, we conclude that $G$ consists of at most $\alpha n + 2m$ reflex vertices (the reflex vertices in $Q$) and at most $|\A| + |\LL[B,Q]|\leq 2\alpha m$ convex vertices. 
 Let $I(n,m)$ be the time to insert back the sites of $R$ and obtain $\vd{\s}$ after having recursively computed $\vd[Q]{B}$.
-Because $Q$ consists of at most $2\alpha n + 4m$ vertices by Lemma~\ref{lemma:PropertiesOfQ}, and since $|B|\leq \alpha m$ by Lemma~\ref{obs: Complexity of B and R}, we get a recursion of the form $T(n, m) = T(2\alpha n + 4m, \alpha m) + I(n,m)$ for the running time of our algorithm. 
+Because $Q$ consists of at most $\alpha n + 4m$ vertices by Lemma~\ref{lemma:PropertiesOfQ}, and since $|B|\leq \alpha m$ by Lemma~\ref{obs: Complexity of B and R}, we get a recursion of the form $T(n, m) = T(\alpha n + 4m, \alpha m) + I(n,m)$ for the running time of our algorithm. 
 We claim that $I(n,m) = O(n+m)$, and we prove it in the next couple of sections.
-However, for $T(n,m)$ to solve to $O(n+ m)$, we need to look at one more iteration of the recursion, as it can be that $2\alpha n + 4m$ is not really smaller than $n$ if $m$ is large. 
-Fortunately, because $T(2\alpha n + 4m, \alpha m) = T(2\alpha(2\alpha n + 4m) + 4\alpha m, \alpha^2 m) + I(2 \alpha n + 4m, \alpha m)$, and by our assumption on the running time of $I(n,m)$, we get that
-\[T(n,m) = T(4\alpha^2 n + 12\alpha m, \alpha^2 m) + O(n+m) + O(2\alpha n + 4m + \alpha m).\]
+However, for $T(n,m)$ to solve to $O(n+ m)$, we need to look at one more iteration of the recursion, as it can be that $\alpha n + 4m$ is not really smaller than $n$ if $m$ is large. 
+Fortunately, because $T(\alpha n + 4m, \alpha m) = T(\alpha(\alpha n + 4m) + 4\alpha m, \alpha^2 m) + I(\alpha n + 4m, \alpha m)$, and by our assumption on the running time of $I(n,m)$, we get that
+\[T(n,m) = T(\alpha^2 n + 8\alpha m, \alpha^2 m) + O(n+m) + O(\alpha n + 4m + \alpha m).\]
 
 By choosing the constant $\alpha$ sufficiently small, and since we assume that $m\leq n$, we can guarantee that $T(n, m) \leq T(n/2, m/2) + O(n + m) = O(n +m)$ proving the main result of this paper.
 Therefore, it remains only to show that $I(n,m)$ is indeed $O(n+ m)$, i.e., in linear time we can insert back the red sites, and obtain the FVD $\vd{\s}$ from the recursively computed diagram of $\vd[Q]{B}$.
@@ -560,28 +627,40 @@ To be able to insert these sites efficiently, we need to have a representation o
 
 Note that we cannot define these distance functions in the entire polygon, otherwise we are spending already too much time and space.
 On the other hand, if its representation is too narrow, then during the insertion it might be that the distance information is insufficient.
-Recall that $\LL$ denotes the set of leaves of $\vd{\s}$.
-Color the leaves in $\LL$ \emph{purple} if they bound the Voronoi cell of a site in $B$ and a site in $R$. 
 
+Recall that $\LL$ denotes the set of leaves of $\vd{\s}$.
+Color the leaves in $\LL$ \emph{purple} if they bound the Voronoi cell of a site in $B$ and a site in $R$; see Figure~\ref{fig:RedPreprocessing}.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics{imgRedPreprocessing.pdf}
+%[width=1\textwidth]
+\caption{$a)$ The coloring of the purple leaves of $\LL$.
+$b)$ For a site $r\in R$, the construction of $u_r$ and $v_r$ lying inside blue Voronoi cells.
+$c)$ The polygon $G_r$ where we compute the SPM of $r$.}
+\label{fig:RedPreprocessing}
+\end{figure}
 
 
 %We then partition $\partial P$ by splitting at each purple point (the purple point belongs to both sides of the split). 
 %In this way, we obtain a collection of maximal polygonal chains without interior purple points called \emph{$B$-$R$-chains}.
 %We group the red sites into blocks as follows. A site $r\in R$ belongs to the \emph{block} $R(C)$ of a $B$-$R$-chain $C$ if $\bcell{r, \s}$ is contained in $C$.
 
-Recall that given a polygon $G$ and two points $x$ and $y$ on $\partial G$, $\partial G(x,y)$ denotes be the polygonal chain that starts at $x$ and follows the boundary of $G$ clockwise until reaching $y$.
+Recall that given a polygon $K$ and two points $x$ and $y$ on $\partial K$, $\partial K(x,y)$ denotes be the polygonal chain that starts at $x$ and follows the boundary of $K$ clockwise until reaching~$y$.
 For each $r\in R$, let $u_r$ and $v_r$ respectively be the first purple leaves of $\LL$ reached from any point in $\bcell{r, \s}$ when walking counterclockwise and clockwise along $\partial P$. 
 We then move $u_r$ and $v_r$ slightly clockwise and counterclockwise, respectively, so that they both sit inside of a blue Voronoi cell. 
 Moreover, we know that $\bcell{r,\s}$ is contained in the interior of the path $\partial P(u_r,v_r)$. 
 We define a new polygon where we define the $w$-function of $r$ as follows.
 Because both $u_r$ and $v_r$ lie on $\partial P$ and on Voronoi cells of blues sites, we know that $u_r$ and $v_r$ are both on $\partial Q$. 
 Let $G_r$ be a new weakly simple polygon bounded by the paths $\p{r}{u_r}, \partial Q(u_r, v_r)$ and $\p{v_r}{r}$. 
-Notice however that the paths $\p{r}{u_r}$ and $\p{v_r}{r}$ are defined within the polygon $P$, while the other path bounding $G_r$ is contained in $\partial Q$. 
+Notice however that the paths $\p{r}{u_r}$ and $\p{v_r}{r}$, called the \emph{walls}, are defined within the polygon $P$, while the other path bounding $G_r$ is contained in $\partial Q$. 
 Since $P\subset Q$, we know that $G_r\subseteq Q$. 
-Moreover, the funnel $\funnel{r\to \partial P(u_r, v_r)}$ is contained in $G_r$; see Figure~\ref{}.
+Moreover, the funnel $\funnel{r\to \partial P(u_r, v_r)}$ is contained in $G_r$; see Figure~\ref{fig:RedPreprocessing}.
 
 \begin{restatable}{lemma}{SPMForSitesR}\label{lemma:SPMForSitesR}
-$[*]$ Given $r\in R$, it holds that $\cell{r, \s}\subseteq G_r$. 
+%$[*]$ 
+Given $r\in R$, it holds that $\cell{r, \s}\subseteq G_r$. 
 Moreover, it holds that 
 \[ \ex{\sum_{r\in R} |G_r|} = O(n)\text{ and }\bigcup_{r\in R} G_r = Q.\]
 \end{restatable}
@@ -700,12 +779,12 @@ This refined FVD is a decomposition of $Q$ into constant-size cells defined as f
 For each site $b\in B$, the Voronoi cell $\cell[Q]{b, B}$ is subdivided by the defining triangles of the SPM of $b$ in $Q$. 
 That is, we take the intersection of each defining triangle $\triangle$ of the SPM of $b$ and intersect it with the Voronoi cell of $b$ to obtain a \emph{refined triangle}. 
 As usual, for each point in a refined triangle, the geodesic distance is measured from its apex $a$ and added with $\dd{b}{a}$. 
-Thus, each refined triangle and its distance function can be described with $O(1)$ space. We say that these refined triangles \emph{belong} to $b$. 
+Thus, each refined triangle and its distance function can be described with $O(1)$ space. We say that $b$ \emph{owns} these refined triangles. 
 In other words, we have a way to describe the upper envelope of the $w$-distances of the sites in $B$ within $Q$ using a collection of constant-size refined triangles. 
 %From the linear time construction of the SPM of each $b\in B$ within $Q$, and from the FVD of $B$ in $Q$, we can obtain its refined FVD in additional $O(|Q|)$ time.
 
 Assume inductively that $\vd[Q]{B}$ is represented as a refined FVD as described above.
-That is, for each site $b$ of $B$, there is a collection of refined triangles that belong to $b$ which cover the entire Voronoi cell $\cell[Q]{b, B}$. 
+That is, for each site $b$ of $B$, there is a collection of refined triangles owned by $b$ which cover the entire Voronoi cell $\cell[Q]{b, B}$. 
 Let $f_b:Q \to \mathbb{R}$ such that $f_b(x) = \dd[Q]{b}{x}$ for each $x\in Q$, i.e., $f_b$ is the function that maps each point to its $w$-distance to $b$ in $Q$. 
 Note that the refined triangles of $b$ in the refined FVD of $\vd[Q]{B}$ provide a representation of this $w$-distance inside $\cell[Q]{b, B}$.
 We say that the geodesic path $\p[Q]{b}{x}$ is the \emph{witness path} of the value of $f_b(x)$.
@@ -941,7 +1020,7 @@ When inserting the $i$-th site $r$ of $R$ into the envelope-graph of $\s_{i-1}$,
 We claim further that the \icell of $r$ intersects $\partial Q$ in a single connected component.
 Notice that this \icell intersects $\partial Q$ by Corollary~\ref{corollary: Shadows in cell as well}.
 To show that this intersections consists of a single component, we assume for a contradiction that the \icell of $r$ intersects $\partial Q$ in two or more connected components. 
-Because the entire \icell of $r$ is contained in $G_r$ by definition of $f_r$,  by removing the \icell of $r$ from $G_r$, we would obtain several connected components, one of them, say $C$, contained in $G_r$. However, in this case we know that for each $x\in C$, the witness path of $f_r(x)$ is defined, and crosses the \icell of $r$; see Figure~\ref{}. 
+Because the entire \icell of $r$ is contained in $G_r$ by definition of $f_r$,  by removing the \icell of $r$ from $G_r$, we would obtain several connected components, one of them, say $K$, contained in $G_r$. However, in this case we know that for each $x\in K$, the witness path of $f_r(x)$ is defined, and crosses the \icell of $r$; see Figure~\ref{fig:EnvelopeGraph}. 
 That is, this witness path contains a point, say $y$, that is \idom by $r$. 
 Thus, Lemma~\ref{lemma:Shadow points} implies that $x$ is \idom by $r$. 
 Because this also holds for any point on the portion of the witness path of $f_r(x)$ connecting $y$ with $x$, 
@@ -950,17 +1029,25 @@ Therefore, $x$ must belong to the \icell of $r$ leading to a contradiction.
 Thus, we proved that the \icell of $r$ intersects $\partial Q$ in a single connected component. 
 In particular, this implies that its boundary consists of a single connected path with endpoints on $\partial Q$.
 
+\begin{figure}[ht]
+\centering
+\includegraphics{imgEnvelopeGraph.pdf}
+%[width=1\textwidth]
+\caption{The proof of Lemma~\ref{lemma:Structure of the envelope}. The \icell of $r$ is denoted in red and contained in $G_r$. We are assuming for a contradiction that the intersection of this \icell with $\partial Q$ is not connected.}
+\label{fig:EnvelopeGraph}
+\end{figure}
+
 Note also that all \icells are non-empty by Lemma~\ref{lemma:Patch contains vcell}.
 Moreover, Lemma~\ref{lemma:Shadow points} guarantees that the envelope-graph contains no bounded cycles. 
 Therefore, each \icell of a site of $\s_i$ intersects the boundary of $Q$. 
 Because the envelope-graph of $\s_{i-1}$ is a tree, by adding the path bounding the \icell of $r$, and removing all that this \icell encloses from the graph,
 we obtain a new acyclic graph with exactly one new \icell. That is, the envelope-graph of $\s_i$ is a tree.
 
-Because the insertion of $r$ added at most 2 new leaves to the envelope-graph, by the induction hypothesis we get that the envelope-graph of $\s_i$ has at most $2|\s_{i-1}| + 2 = 2|\s_i|$ leaves concluding our proof.
+Because the insertion of $r$ added at most 2 new leaves to the envelope-graph, by the induction hypothesis we get that the envelope-graph of $\s_i$ has at most $2|\s_{i-1}| + 2 = 2|\s_i|$ leaves concluding our proof (note that some leaves might disappear if they were contained in the \icell of $r$).
 \end{proof}
 
 \begin{lemma}\label{lemma: Patch in G_r}
-The \icell of $r$ is contained in $G_r$ and intersects no point of the walls of $G_r$.
+The \icell of $r$ is contained in $G_r$ and does not intersect the walls of~$G_r$.
 \end{lemma}
 \begin{proof}
 Because $f_r$ is only defined in $G_r$, we get trivially that the \icell of $r$ is contained in $G_r$. To prove the second part of the result,
@@ -976,7 +1063,7 @@ Therefore, if there was a point of the \icell of $r$ on any of the walls of $G_r
 
 We proceed now to describe algorithmically how to carry on the incremental construction described above, and construct the envelope-graph of $\s_i$.
 Our algorithm starts with the refined FVD of $\vd[Q]{B}$, and on each round constructs the boundary to the \icell of a new site of $R$. 
-In addition to our envelope-graph, we maintain a set of refined triangles that cover each \icell in the same way that they cover the Voronoi cells in the refined FVD.
+In addition to our envelope-graph, we maintain a set of refined triangles that cover each \icell in the same way that they cover the Voronoi cells in the refined FVD; see Figure~\ref{fig:RrefinedDiagram}.
 We call this representation the \emph{refined envelope} of $\s_i$.
 We assume inductively that the envelope-graph of $\s_i$ $\vd[Q]{B}$ is stored as a refined envelope. 
 For the base case this holds as we assume that we have at hand the refined FVD of $\vd[Q]{B}$.
@@ -985,7 +1072,7 @@ Moreover, we assume also that we have a pointer to the refined triangle of this 
 
 \begin{figure}[ht]
 \centering
-\includegraphics{RefinedDiagram.pdf}
+\includegraphics{imgRefinedDiagram.pdf}
 %[width=1\textwidth]
 \caption{$a)$ a site $b\in B$ and the defining triangles of $f_b$. 
 $b)$ The refined triangles obtained by intersecting with the \icell[0] of $b$.
@@ -1002,14 +1089,14 @@ Thus regardless of the case $\mu_s$ denotes a set of triangles (and their associ
 To compute the \icell of $r$, the first step is to find a point lying on its boundary.
 Note that by Lemma~\ref{lemma:Patch contains vcell}, we can easily find some points on $\partial Q$ that lie in the \icell of $r$.
 Namely, we can take an endpoint $\ell$ of $\bcell{r, \s}$. 
-Because $\ell\in \LL$, we know that it is a vertex of $Q$.
+Because $\ell\in \LL$, we know that it is a vertex of~$Q$.
 Thus, we know the triangle $\triangle$ of the refined envelope of $\s_{i-1}$ that contains $\ell$, and the site $s\in \s_{i-1}$ that owns $\triangle$.
-Moreover, we also know the triangle $\triangle'$ of $\mu_r$ that contains $\ell$ in the SPM of~$r$.
+Moreover, we also know the triangle $\triangle'$ of $\mu_r$ that contains~$\ell$ in the SPM of~$r$.
 Let $H$ be the intersection of $\triangle$ and $\triangle'$.
 Because both $f_r$ and $f_s$ have constant description inside of $H$, we can compute their upper envelope in this small domain.
 If there is a point $x$ in $H\cap \partial Q$ such that $f_r(x) = f_s(x)$, then we have found an endpoint of the boundary of the \icell of $r$.
-Otherwise, we know that $H\cap \partial Q$ is entirely contained in the \icell of $r$, in this case, we can move to a neighboring triangle.
-Note that the clockwise endpoint of $H\cap \partial Q$ belongs to the boundary of either $\triangle$ or $\triangle'$. 
+Otherwise, we know that $H\cap \partial Q$ is entirely contained in the \icell of $r$, in this case, we can move counterclockwise to a neighboring triangle.
+Note that the counterclockwise endpoint of $H\cap \partial Q$ belongs to the boundary of either $\triangle$ or $\triangle'$. 
 In the former case, we move to the next refined triangle along $\partial Q$ of the refined envelope of $\s_{i-1}$, 
 or in the latter case to the neighboring triangle of $\triangle'$ in $\mu_r$.
 After moving, we can redefine $H$ and repeat the process until finding an endpoint $z$ of the boundary of the \icell of $r$; see Figure~\ref{fig:RrefinedDiagram}. 
@@ -1034,10 +1121,11 @@ When we found~$z$, we know the structure of the boundary of the \icell of $r$ in
 Note that inside of $H$, this boundary has constant description. 
 In fact, we know that it is either a hyperbolic arc, or a straight-line segment, being the locus of points where $f_r(x) = f_{s'}(x)$, where $s'$ is the site who owns the refined triangle of the refined envelope of $\s_{i-1}$ defining $H$.
 Thus, we can move along this arc until it hits the boundary of $H$. 
-At this point, we move either to the neighboring refined triangle in the refined envelope of $\s_{i-1}$, or the neighboring triangle in the description of $f_r$, 
+At this point, we move either to the neighboring refined triangle in the refined envelope of $\s_{i-1}$, 
+or the neighboring triangle in the description of $f_r$,  
 depending on what boundary of $H$ this arc hits. 
 Proceeding in this fashion, we can reconstruct the boundary of the entire \icell of $r$. 
-Moreover, each time that we move to a neighboring refined triangle or triangle, we obtain a new arc of the boundary of the \icell of $r$. 
+Moreover, each time that we move to a neighboring refined triangle, we obtain a new arc of the boundary of the \icell of $r$. 
 Thus, the number of times we have to move corresponds to the size of the \icell of $r$. 
 Because each operation takes constant time, the total running time is linear on the \emph{size} of the \icell of $r$, i.e., the number of arcs and vertices that define its boundary.
 
@@ -1148,7 +1236,6 @@ We can compute the FVD of $\s$ in $P$ in $O(n)$ time.
 \end{theorem}
 
 
-\newpage
 {\small
 \bibliographystyle{abbrvnat}
 \bibliography{Geodesic}}
