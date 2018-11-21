@@ -1,11 +1,11 @@
 %% socg-lipics-v2018.cls 
 %% Author:     Michael Hoffmann <hoffmann@inf.ethz.ch>
-%% Revision: $Rev: 5930 $ from $Date: 2018-08-24 14:13:30 +0200 (Fri, 24 Aug 2018) $
+%% Revision: $Rev: 5935 $ from $Date: 2018-09-04 13:20:57 +0200 (Tue, 04 Sep 2018) $
 %% wrapper around lipics-v2018 to obtain a more consistent line numbering
 %% we patch/hack some relevant commands and environments and see what happens...
 
 \NeedsTeXFormat{LaTeX2e}[2015/01/01]
-\ProvidesClass{socg-lipics-v2018}[2018/08/17 v0.2 Adapt LIPIcs class so that lineno counts and numbers more relevant lines]
+\ProvidesClass{socg-lipics-v2018}[2018/09/04 v0.3 Adapt LIPIcs class so that lineno counts and numbers more relevant lines]
 
 %% prefix output by classname
 \newcommand{\socgtypeout}[1]{\typeout{socg-lipics-v2018: #1}}%
@@ -43,7 +43,10 @@
 }{%
   \PassOptionsToPackage{longtable}{lineno}}%
 %% load LIPIcs class
-\LoadClass{lipics-v2018}%
+\LoadClass{lipics-v2018}[2018/04/09]%
+
+%% hide LIPIcs DOI
+\def\@DOIPrefix{}
 
 %% \socgnl = number line: allows to manually add the current linenumber to a
 %% single line if placed at the start of that line
@@ -124,14 +127,26 @@
 %% ... not even subject classification, doi, etc.
 \let\socgabstract=\abstract
 \let\socgendabstract=\endabstract
+\newcounter{socglastlinecounter}
 \renewenvironment{abstract}{%
   \socgabstract%
 }{%
   \par\begin{nolinenumbers}
     \socgendabstract
+    \vskip\baselineskip\noindent
+    \textcolor{darkgray}{\fontsize{9.5}{12.5}\sffamily\bfseries Lines\enskip}
+    {\ifnum\value{socglastlinecounter}>500\color{red}\fi\arabic{socglastlinecounter}}
   \end{nolinenumbers}%
   \socgnumberfootnotes%
 }
+%% to list the lines, look where the references start
+\AtBeginDocument{%
+  \let\socgthebibliography=\thebibliography
+  \renewcommand{\thebibliography}{%
+    \setcounter{socglastlinecounter}{\value{linenumber}}%
+    \addtocounter{socglastlinecounter}{-1}%
+    \makeatletter\write\@auxout{\noexpand\setcounter{socglastlinecounter}{\thesocglastlinecounter}}\makeatother%
+    \socgthebibliography}}
 
 %% wrap tabular into edtable
 \ifthenelse{\boolean{socgnotab}}{%

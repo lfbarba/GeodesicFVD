@@ -1,4 +1,37 @@
-\documentclass[a4paper, 11pt]{article}
+%\documentclass[a4paper, 11pt]{article}
+%
+
+
+%\usepackage{geometry}
+%
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{observation}[theorem]{Observation}
+%\newtheorem{problem}[theorem]{Problem}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{question}[theorem]{Question}
+
+
+%
+%%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
+%
+%% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{Geodesic farthest-point Voronoi diagram in linear time}
+%
+%\author{Luis Barba\thanks{Department of Computer Science, ETH Z\"urich, Switzerland, \texttt{luis.barba@inf.ethz.ch}}}
+%\date{} 
+\documentclass[a4paper,UKenglish]{socg-lipics-v2018}
+%This is a template for producing LIPIcs articles. 
+%See lipics-manual.pdf for further information.
+%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
+%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
+% for section-numbered lemmas etc., use "numberwithinsect"
+ 
+\usepackage{microtype,xspace,thm-restate}%if unwanted, comment out or use option "draft"
+\usepackage{hyperref,color}
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm,graphicx,graphics,epsf}
 \setcounter{tocdepth}{3}
@@ -18,85 +51,54 @@
 %\linenumbers
 
 
-\usepackage{geometry}
-
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{observation}[theorem]{Observation}
-\newtheorem{problem}[theorem]{Problem}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{conjecture}[theorem]{Conjecture}
-\newtheorem{question}[theorem]{Question}
-
-
-
 %\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
 
+\bibliographystyle{plain}% the recommended bibstyle
+
 % Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Geodesic farthest-point Voronoi diagram in linear time}
+\title{Optimal algorithm for geodesic farthest-point Voronoi diagrams}
+\titlerunning{Geodesic farthest-point Voronoi diagrams} %optional, in case that the title is too long; the running title should fit into the top page column
 
-\author{Luis Barba\thanks{Department of Computer Science, ETH Z\"urich, Switzerland, \texttt{luis.barba@inf.ethz.ch}}}
-\date{} 
-%\documentclass[a4paper,UKenglish]{socg-lipics-v2018}
-%%This is a template for producing LIPIcs articles. 
-%%See lipics-manual.pdf for further information.
-%%for A4 paper format use option "a4paper", for US-letter use option "letterpaper"
-%%for british hyphenation rules use option "UKenglish", for american hyphenation rules use option "USenglish"
-%% for section-numbered lemmas etc., use "numberwithinsect"
-% 
-%\usepackage{microtype,xspace,thm-restate}%if unwanted, comment out or use option "draft"
-%\usepackage{hyperref,color}
-%
-%%\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
-%
-%\bibliographystyle{plain}% the recommended bibstyle
-%
-%% Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\title{Optimal algorithm for geodesic farthest-point Voronoi diagrams}
-%\titlerunning{Geodesic farthest-point Voronoi diagrams} %optional, in case that the title is too long; the running title should fit into the top page column
-%
-%\author{Luis Barba}{Department of Computer Science, ETH Z\"urich, Switzerland}{luis.barba@inf.ethz.ch}{}{}
-%
-%
-%\authorrunning{L. Barba} %mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
-%
-%\Copyright{Luis Barba}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
-%
-%\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
-%
-%\keywords{Dummy keyword}%mandatory
-%
-%\category{}%optional, e.g. invited paper
-%
-%\relatedversion{}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
-%
-%\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
-%
-%\funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
-%
-%%\acknowledgements{I want to thank \dots}%optional
-%
-%%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\EventEditors{John Q. Open and Joan R. Access}
-%\EventNoEds{2}
-%\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
-%\EventShortTitle{CVIT 2016}
-%\EventAcronym{CVIT}
-%\EventYear{2016}
-%\EventDate{December 24--27, 2016}
-%\EventLocation{Little Whinging, United Kingdom}
-%\EventLogo{}
-%\SeriesVolume{42}
-%\ArticleNo{23}
-%%\nolinenumbers %uncomment to disable line numbering
-%%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Luis Barba}{Department of Computer Science, ETH Z\"urich, Switzerland}{luis.barba@inf.ethz.ch}{}{}
+
+
+\authorrunning{L. Barba} %mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et. al.'
+
+\Copyright{Luis Barba}%mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\subjclass{Dummy classification}% mandatory: Please choose ACM 2012 classifications from https://www.acm.org/publications/class-2012 or https://dl.acm.org/ccs/ccs_flat.cfm . E.g., cite as "General and reference $\rightarrow$ General literature" or \ccsdesc[100]{General and reference~General literature}. 
+
+\keywords{Dummy keyword}%mandatory
+
+\category{}%optional, e.g. invited paper
+
+\relatedversion{}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
+
+\supplement{}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
+
+\funding{}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+
+%\acknowledgements{I want to thank \dots}%optional
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\EventEditors{John Q. Open and Joan R. Access}
+\EventNoEds{2}
+\EventLongTitle{42nd Conference on Very Important Topics (CVIT 2016)}
+\EventShortTitle{CVIT 2016}
+\EventAcronym{CVIT}
+\EventYear{2016}
+\EventDate{December 24--27, 2016}
+\EventLocation{Little Whinging, United Kingdom}
+\EventLogo{}
+\SeriesVolume{42}
+\ArticleNo{23}
+%\nolinenumbers %uncomment to disable line numbering
+%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-%\newtheorem{observation}[theorem]{Observation}
+\newtheorem{observation}[theorem]{Observation}
 
 \newcommand{\icell}[1][i]{${#1}$-patch\xspace}
 \newcommand{\icells}[1][i]{${#1}$-patches\xspace}
@@ -273,7 +275,7 @@ Thus, inserting all sites of $R$ can be done in expected $O(n+ m)$ time.
 After inserting the sites of $R$, the expected total running time of our algorithm is given by the simple recurrence $\ex{T(n, m)} \leq T(n/2, m/2) + O(n+m) = O(n+ m)$.
 The crucial aspect with our approach that could not be achieved before this paper, is the reduction in the complexity of the polygon. 
 Overall, we combine many different tools, from recursion, pruning, and randomization, together with all the machinery to deal with geodesic functions. 
-%Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix. 
+Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix. 
 
 \section{Preliminaries}
 
@@ -395,11 +397,11 @@ With this new weight function, we can think of $\A$ as a set of weighted sites i
 %Thus, from now on we can assume that all our sites are weighted, and that distances are measured using the weighted distance function $\dd{s}{x}$ from any site $s\in \s$.
 
 \begin{restatable}{lemma}{ApexFVD}\label{lemma:ApexFVD}
-%$[*]$ 
+$[*]$ 
 It holds that $\vd[G]{\A}$ and $\vd[P]{\s}$ have the same Voronoi trees.
 \end{restatable}
-%\newcommand{\ProofApexFVD}{
-%\ApexFVD*
+\newcommand{\ProofApexFVD}{
+\ApexFVD*
 \begin{proof}
 Notice that $G$ is a subset of $H$ such that $int(G)\subset int(H)$.
 Let $s$ be a site of $\s$ and let $x\in G$. 
@@ -408,7 +410,7 @@ Therefore, we know that  $\ddw[G]{a_s}{x} = w'(a_s) + \g{a_s}{x} = \dd{s}{a_s} +
 That is, the $w'$-distance from any site in $a_s \in \A$ to any point $x$ in $G$ is the same as the $w$-distance from the corresponding site in $s\in \s$ to the same point $x$ in $P$, which implies that $\cell[G]{s, \s} \subseteq \cell{s, \s}$. 
 Because this happens for each Voronoi cell of $\s$ in $G$, the Voronoi trees coincide. 
 \end{proof}
-%}
+}
 
 By Lemma~\ref{lemma:ApexFVD}, we can always transform the problem of computing the FVD of $\s$ in $P$ as follows. 
 Recall that $\LL$ is the set containing each leaf of $\vd{\s}$ and that $m= |\s|$.
@@ -434,7 +436,7 @@ Using the simplification transform defined in Section~\ref{section:Simplificatio
 That is, it consists of at most $2m$ convex vertices.
 If we consider consecutive vertices in $\s\cup \LL$ along $\partial P$, the chain connecting them consists only of reflex vertices of $P$, or is a single edge. 
 The next step explained in the following section is to randomly partition $\s$.
-Note that if $m = O(1)$, we can compute $\vd{\s}$ in $O(n)$ time by computing their bisectors and considering their overlay. Thus, from now on we assume that $m$ is larger than some predefined constant.
+Note that if $m = O(1)$, we can compute $\vd{\s}$ in $O(n)$ time by computing their bisectors and considering their overlay. Thus, we assume that $m$ is larger than some predefined constant.
 
 \subsection{First phase: the partition}\label{section:First phase}
 We compute in linear time $\bvd{\s}$ using Lemma~\ref{thm:VD in boundary}, and let $\LL$ be the set of leaves of $\vd{\s}$. Note that $|\LL| = m$. 
@@ -542,8 +544,8 @@ That is, distances from $b$ can only get shorter, and only outside of $\cell{b, 
 To define these new distance functions, we define a new polygon $Q$ of lower complexity than $P$ (although $P\subseteq Q$).
 Let $V_B$ be the set consisting of all vertices of $P$ that belong to the funnel $\funnel{b, \s}$ of some $b\in B$.
 By Observation~\ref{obs: Complexity of B and R}, we know that the expected size of $V_B$ is at most $\alpha n$. 
-Note that we could repeat the construction of $B$ and $R$ an expected constant number times, until we guarantee that $V_B\leq \alpha n)$.
-Let $V_C$ be the set of convex vertices of~$P$. Recall that by our assumption that the simplification transform has already been applied to~$P$, 
+Note that we could repeat the construction of $B$ and $R$ an expected constant number times, until we guarantee that $V_B\leq \alpha n$.
+Let $V_C$ be the set of convex vertices of~$P$. By our assumption that the simplification transform has already been applied to~$P$, 
 we know by Lemma~\ref{section:Simplification} that $V_C$ consists of the union of $\s$ and $\LL$, where $\LL$ is the set of leaves of $\vd{\s}$, i.e., $|V_C| \leq 2m$.
 Let $Q$ be a polygon defined as follows. 
 Imagine the boundary of $P$ being a rubber band, and each vertex of $V_B\cup V_C$ being a pin.
@@ -560,24 +562,31 @@ $c)$ The polygon $Q$ is obtained by taking a rubber band and keeping attached at
 \end{figure}
 
 \begin{restatable}{lemma}{PropertiesOfQ}\label{lemma:PropertiesOfQ}
-%$[*]$ 
+$[*]$ 
 The polygon $Q$ contains $P$, is weakly simple, can be computed in expected $O(n)$ time, and has at most $\alpha n + 4m$ vertices.
 Moreover, for $x,y\in P$, it holds that $\g[Q]{x}{y} \leq \g{x}{y}$. 
 In particular, for each $b\in B$ and $x\in P$, $\dd[Q]{b}{x} \leq \dd{b}{x}$, and if $x\in \cell{b, \s}$, then $\dd[Q]{b}{x} = \dd{b}{x}$.
 \end{restatable}
-%\begin{proof}[Sketch proof]
-%The boundary of $Q$ can be constructed by connecting consecutive  points in $V_B$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B$ in this domain). Only convex vertices of $P$ can be in these paths, and they can be visited only twice.
-%Therefore, $Q$ consists of at most $|V_B| + 2m = \alpha n + 2m$ reflex vertices; see full proof in Appendix. 
-%\end{proof}
-%\newcommand{\ProofPropertiesOfQ}{
-%\PropertiesOfQ*
+\begin{proof}[Sketch proof]
+The boundary of $Q$ can be constructed by connecting consecutive points in $V_B\cup V_C$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B\cup V_C$ in this domain). 
+Only convex vertices of $P$ can be in these paths, and they can be visited only twice.
+Therefore, $Q$ consists of at most $|V_B| +  2|V_C| \leq \alpha n + 4m$ vertices; see full proof in Appendix. 
+\end{proof}
+\newcommand{\ProofPropertiesOfQ}{
+\PropertiesOfQ*
 \begin{proof}
 The boundary of $Q$ can be constructed by connecting consecutive  points in $V_B\cup V_C$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B\cup V_C$ in this domain). 
 Note however that we do not need to deal with geodesics in domains with holes. 
 We can take a box sufficiently large to enclose $P$, and connect it using a small corridor with the left most vertex of $P$ to create a new polygon $P^\circ$ that essentially is a box with $P$ as a ``hole''; see Figure~\ref{fig:ConstructingQ}. 
 Using this polygon that can be constructed in linear time, we can compute the boundary of $Q$ in $O(n)$ time~\cite[Lemma 2]{kpairpath}.
 
-
+\begin{figure}[ht]
+\centering
+\includegraphics{imgConstructingQ.pdf}
+%[width=1\textwidth]
+\caption{The algorithmic construction of $Q$ described in the proof of Lemma~\ref{lemma:PropertiesOfQ}.}
+\label{fig:ConstructingQ}
+\end{figure}
 
 Note that the reflex vertices in $P$ become convex in $P^\circ$ and vice versa. 
 Therefore, the geodesic paths in $P^\circ$ connecting consecutive vertices of $V_B\cup V_C$ consist only of reflex vertices of $P^\circ$ other than their endpoints, i.e., they consist only of vertices of $V_C$.  
@@ -587,15 +596,9 @@ Therefore, $Q$ consists of at most $|V_B| +  2|V_C| \leq \alpha n + 4m$ vertices
 For $x,y\in P$, the geodesic $\p{x}{y}$ is also contained in $Q$. Thus, their geodesic distance in $Q$ can only get shorter, i.e., $\g[Q]{x}{y} \leq \g{x}{y}$.
 Moreover, for some $b\in B$, notice that $V_B$ contains all vertices of $\funnel{b, \s}$. Therefore, for $x\in \cell{b,\s}$, all vertices in the geodesic $\p{b}{x}$ are still on $Q$, i.e., $\dd[Q]{b}{x} = \dd{b}{x}$. Moreover, if $x\in P$, but not in $\cell{b,\s}$, then the path to $x$ can only become shorter, i.e., $\dd[Q]{b}{x} \leq \dd{b}{x}$.
 \end{proof}
-%}
+}
 
-\begin{figure}[t]
-\centering
-\includegraphics{imgConstructingQ.pdf}
-%[width=1\textwidth]
-\caption{The algorithmic construction of $Q$ described in the proof of Lemma~\ref{lemma:PropertiesOfQ}.}
-\label{fig:ConstructingQ}
-\end{figure}
+
 
 Our plan is now to compute the FVD of $B$ in the new polygon $Q$, and then use this as a ``good'' approximation of $\vd{B}$ in $P$. 
 With good, we mean that the red sites can be randomly inserted in this diagram, and that the result of this whole process is indeed $\vd{\s}$. 
@@ -659,26 +662,19 @@ Since $P\subset Q$, we know that $G_r\subseteq Q$.
 Moreover, the funnel $\funnel{r\to \partial P(u_r, v_r)}$ is contained in $G_r$; see Figure~\ref{fig:RedPreprocessing}.
 
 \begin{restatable}{lemma}{SPMForSitesR}\label{lemma:SPMForSitesR}
-%$[*]$ 
+$[*]$ 
 Given $r\in R$, it holds that $\cell{r, \s}\subseteq G_r$. 
 Moreover, it holds that 
 \[ \ex{\sum_{r\in R} |G_r|} = O(n)\text{ and }\bigcup_{r\in R} G_r = Q.\]
 \end{restatable}
 %\begin{proof}[Proof sketch]
 %\end{proof}
-
-%\newcommand{\ProofSPMForSitesR}{
-%\SPMForSitesR*  
+\newcommand{\ProofSPMForSitesR}{
+\SPMForSitesR*  
 \begin{proof}
 Recall that by Lemma~\ref{lemma:Voronoi cell in funnel}, we know that $\cell{r, \s}$ is contained in the funnel $\funnel{r, \s}$.
 Moreover, $\funnel{r, \s}$ is contained in $\funnel{r\to  \partial P(u_r, v_r)}$, which in term is contained in $G_r$ by construction.
 Therefore, $\cell{r, \s}\subseteq G_r$ as claimed. 
-
-%Notice that $\bcell{r, \s} = \bcell{r, B\cup R(C)}$ as all the sites limiting the boundary of $\bcell{r,\s}$ are in $B\cup R(C)$. 
-%Thus, Lemma~\ref{lemma:Voronoi cell in funnel} implies that $\cell{r, B\cup R(C)} \subseteq \funnel{r, B\cup R(C)} = \funnel{r \to \bcell{r, B\cup R(C)}}$.
-%Moreover, because $C$ contains $\bcell{r, \s} = \bcell{r, B\cup R(C)}$, and since $G_C$ is geodesically convex and contains $r$, 
-%we conclude that $\cell{r, B\cup R(C)} \subseteq \funnel{r, B\cup R(C)} \subseteq G_C$ as claimed.
-
 
 We use some concepts and results introduced by Ahn et al.~\cite[Section 3]{ahn2015linear}.
 A \emph{transition chain} is a polygonal chain contained in $\partial P$ such that its endpoints belong to different Voronoi cells. 
@@ -718,7 +714,7 @@ It remains only to show that $\bigcup_{r\in R} G_r = Q$. To this end, note that 
 That is, $P$ is contained in $\bigcup_{r\in R} G_r$. We show now that $Q\setminus P$ is also contained in it. 
 Recall that to define $G_r$, we use $\partial Q(u_r, v_r)$ instead of $\partial P(u_r, v_r)$ to close the boundary of $G_r$. The space between $\partial Q(u_r, v_r)$ and $\partial P(u_r, v_r)$ encloses a region of $Q\setminus P$, say $W_r$. Moreover, if we take the union of all these regions, then we get that $Q\setminus P = \cup_{r\in R} W_r$ proving our result.
 \end{proof}
-
+}
 
 %Let $C$ be a $B$-$R$-chain, and let $G_C$ be the polygon obtained by taking the geodesic hull of $R(C) \cup C$. 
 %We now compute the FVD of $R(C)$ inside of $G_C$. 
@@ -801,10 +797,13 @@ That is, $f_r(x) = \dd[G_r]{x}{r}$ for each $x\in G_r$.
 In this case we say that $\p[G_r]{r}{x}$ is a \emph{witness path} of the value of $f_r(x)$. 
 Note that by Lemma~\ref{lemma:SPMForSitesR}, the functions $f_r$ jointly cover polygon $Q$. 
 
-\begin{lemma}\label{lemma: f_r and distance coincide in cell}
+\begin{restatable}{lemma}{DistanceCoincideCell}\label{lemma: f_r and distance coincide in cell}
+$[*]$
 Let $r\in R$.
 Given $x\in P$, it holds that $f_r(x) \leq \dd{r}{x}$. Moreover, if $x\in \cell{r, \s}$ and the path $\p{r}{x}$ contains no point of $\bcell{r, \s}$ other than its endpoints, then $f_r(x) = \dd{r}{x}$. 
-\end{lemma}
+\end{restatable}
+\newcommand{\ProofDistanceCoincideCell}{
+\DistanceCoincideCell*
 \begin{proof}
 By Lemma~\ref{lemma:Voronoi cell in funnel}, we know that if $x\in \cell{r,\s}$, then  $x$ belongs to $\funnel{r, \s}$.
 Moreover, since $\funnel{r, \s}$ is contained in $G_r$, we know that 
@@ -814,6 +813,7 @@ If $\p{r}{x}$ contains no point of $\bcell{r, \s}$, then we claim that $\p{r}{x}
 If this claim is true, then clearly $f_r(x) = \dd[G_r]{r}{x} = \dd{r}{x}$ proving our result.
 To prove our claim, notice that path $\p{r}{x}$ is contained in $\funnel{r, \s}$. Moreover, because this path contains no point of $\bcell{r, \s}$ other than its endpoints, then all reflex vertices along it must belong to the walls of $\funnel{r, \s}$. However, all these reflex vertices are also part of $G_r$. Thus, since $\funnel{r, \s}\subseteq G_r$, we conclude that $\p{r}{x} = \p[G_r]{r}{x}$ proving our claim.  
 \end{proof}
+}
 
 %To avoid degenerate situations, we assume that for no vertex of $v$ of $Q$ it holds that $f_s(v) = f_t(v)$ for two different sites $s,t\in \s$. 
 %This can be obtained by applying a slight perturbation from either the weights of the sites, or their positions~\cite{edelsbrunner1990simulation}.
@@ -840,11 +840,15 @@ Let $s$ be a site of $\s_i$.
 Given a point $x$ of $Q$, we say that $x$ is \emph{\idom} by $s$ if $f_s(x) \geq f_{s'}(x)$ for all $s'\in \s_i$.
 Notice that if a point $x$ is \idom, then the witness path of $f_s(x)$ must be defined. 
 
-\begin{lemma}\label{lemma:Shadow points}
-Let $s$ be a site of $\s$.
-Given a point $x$ such that $x$ is \idom by $s$, and a point $z\in Q$ such that $x$ lies on the witness path of $f_s(z)$,
-it holds that $z$ is \idom by $s$. 
-\end{lemma}
+
+\begin{restatable}{lemma}{ShadowPoints}\label{lemma:Shadow points}
+$[*]$ 
+Let $s$ be a site of $\s$, and let $x$ be a point that is \idom by $s$. If $z\in Q$ is a point that lies on the witness path of $f_s(z)$,
+then $z$ is \idom by~$s$. 
+\end{restatable}
+
+\newcommand{\ProofShadowPoints}{
+\ShadowPoints*  
 \begin{proof}
 Let $\gamma$ be the witness path of $f_s(z)$, and let $\gamma(x, z)$ denote the subpath of $\gamma$ connecting $x$ with $z$.
 We prove the result by induction on the number of vertices of $\gamma(x, z)$.
@@ -860,9 +864,10 @@ $f_s(y) = f_s(v_t) + |v_t y| \geq f_{s'}(v_t) + |v_t y| \geq f_{s'}(y)$.
 That is, any point $y\in v_t z$ is \idom by $s$ as claimed.
 Therefore, by induction the entire path $\gamma(x, z)$ is \idom by~$s$.
 \end{proof}
+}
 
 Let $x$ be a point that is \idom by $s$. Extend the last segment of the witness path of $f_s(x)$ until it touches the boundary of $Q$ at a point $x^*$.
-We say that $x^*$ is the \emph{$s$-shadow} of $x$. A direct consequence of Lemma~\ref{lemma:Shadow points} is the following result.
+We say that $x^*$ is the \emph{$s$-shadow} of~$x$. A direct consequence of Lemma~\ref{lemma:Shadow points} is the following result.
 
 \begin{corollary}\label{corollary: Shadows in cell as well}
 Let $s \in \s_i$.
@@ -923,10 +928,14 @@ If $x$ is \idom by $s$, then its $s$-shadow is also \idom by $s$ and lies on $\p
 
 The following result is crucial to guarantee the the resulting structure after the incremental construction coincides with the desired FVD of $\s$.
 
-\begin{lemma}\label{lemma:Patch contains vcell} 
+\begin{restatable}{lemma}{PatchContainsVcell}\label{lemma:Patch contains vcell} 
+$[*]$
 For each $0\leq i \leq |R|$ and for each site $s\in \s_i$, 
 each point in the Voronoi cell $\cell{s, \s}$ is \idom by $s$.
-\end{lemma}
+\end{restatable}
+
+\newcommand{\ProofPatchContainsVcell}{
+\PatchContainsVcell*  
 \begin{proof}
 Let $b\in B$ and let $x\in \cell{b, \s}$. 
 Because $f_b(x) = \dd{b}{x}$ by Observation~\ref{obs: f_s and distance coincide in cell}, and since $\dd{b}{x} \geq \dd{s}{x}$ for any $s\in \s_i$ by definition of Voronoi cell, we know that $f_b(x) \geq \dd{s}{x}$ for any $s\in \s_i$. Moreover, as $x\in P$, Observation~\ref{obs: f_s and distance coincide in cell} and Lemma~\ref{lemma: f_r and distance coincide in cell} imply that $\dd{s}{x} \geq f_s(x)$. 
@@ -939,7 +948,7 @@ Because the path $\p{r}{y}$ contains no interior point of $\bcell{r, \s}$, Lemma
 Because $y$ lies in the witness path $\p[G_r]{r}{x} = \p{r}{x}$ of $f_r(x)$, and since $y$ is \idom by $r$, Lemma~\ref{lemma:Shadow points} implies that $x$ \idom by $r$.
 Therefore, regardless of the case, we know that for each $s\in \s_i$, each point in $\cell{s, \s}$ is \idom by $s$.
 \end{proof}
-
+}
 
 \subsection{The insertion process}\label{section: Insertion process}
 %These structural results allow us to carry on the insertions without losing the tree-structure of the envelope throughout the randomized incremental construction.
@@ -1011,9 +1020,17 @@ In this way, the \icells[(i-1)] of the envelope graph of $\s_{i-1}$ might shrink
 However, Lemma~\ref{lemma:Patch contains vcell} guarantees that for each site $s\in \s_i$, the Voronoi cell $\cell{s, \s}$ is $i$-dominated by $s$.
 Therefore, $\cell{s, \s}$ is still contained in the \icell of $s$, i.e., the \icell of $s$ is non-empty.
 
-\begin{lemma}\label{lemma:Structure of the envelope}
+\begin{restatable}{lemma}{StructureEnvelope}\label{lemma:Structure of the envelope}
+$[*]$
 The envelope-graph of $\s_i$ is a tree with at most $2|\s_i|$ leaves lying on the boundary of $Q$.
-\end{lemma}
+\end{restatable}
+\begin{proof}[Proof sketch]
+The proof is by induction with $\vd[Q]{B}$ as base case. 
+When inserting the $i$-th site $r\in R$ into the envelope-graph of $\s_{i-1}$, the \icell of $r$ is connected and intersects $\partial Q$ in a single connected component. By adding this \icell, the tree structure is preserved.
+\end{proof}
+
+\newcommand{\ProofStructureEnvelope}{
+\StructureEnvelope*
 \begin{proof}
 We prove the result by induction $i$. For the base case the result holds for the Voronoi tree of $\vd[Q]{B}$ which has $|B| = |\s_0|$ leaves on the boundary of $Q$.
 When inserting the $i$-th site $r$ of $R$ into the envelope-graph of $\s_{i-1}$, we know that the \icell of $r$ is connected by construction.
@@ -1045,16 +1062,20 @@ we obtain a new acyclic graph with exactly one new \icell. That is, the envelope
 
 Because the insertion of $r$ added at most 2 new leaves to the envelope-graph, by the induction hypothesis we get that the envelope-graph of $\s_i$ has at most $2|\s_{i-1}| + 2 = 2|\s_i|$ leaves concluding our proof (note that some leaves might disappear if they were contained in the \icell of $r$).
 \end{proof}
+}
 
-\begin{lemma}\label{lemma: Patch in G_r}
+\begin{restatable}{lemma}{PatchInGr}\label{lemma: Patch in G_r}
 The \icell of $r$ is contained in $G_r$ and does not intersect the walls of~$G_r$.
-\end{lemma}
+\end{restatable}
+\newcommand{\ProofPatchInGr}{
+\PatchInGr*
 \begin{proof}
 Because $f_r$ is only defined in $G_r$, we get trivially that the \icell of $r$ is contained in $G_r$. To prove the second part of the result,
 recall that the walls of $G_r$ are defined by the paths $\p{r}{u_r}$ and $\p{r}{v_r}$, where $u_r$ and $v_r$ lie strictly inside of the Voronoi cells of some blue sites (see Section~\ref{sec: Preprocessing of red sites}).
 By Lemma~\ref{lemma:Patch contains vcell}, we know then that $u_r$ and $v_r$ lie strictly inside the \icells of some blue sites in $B$.
 Therefore, if there was a point of the \icell of $r$ on any of the walls of $G_r$, say on $\p{r}{u_r}$, then by Lemma~\ref{lemma:Shadow points} $u_r$ would belong to the \icell of $r$---a contradiction as $u_r$ lies strictly inside the \icell of a blue site. 
 \end{proof}
+}
 
 
 
@@ -1062,12 +1083,12 @@ Therefore, if there was a point of the \icell of $r$ on any of the walls of $G_r
 \subsection{Algorithmic description} 
 
 We proceed now to describe algorithmically how to carry on the incremental construction described above, and construct the envelope-graph of $\s_i$.
-Our algorithm starts with the refined FVD of $\vd[Q]{B}$, and on each round constructs the boundary to the \icell of a new site of $R$. 
+Our algorithm starts with the refined FVD of $\vd[Q]{B}$, and on each round constructs the boundary of the \icell of a new site of $R$. 
 In addition to our envelope-graph, we maintain a set of refined triangles that cover each \icell in the same way that they cover the Voronoi cells in the refined FVD; see Figure~\ref{fig:RrefinedDiagram}.
 We call this representation the \emph{refined envelope} of $\s_i$.
-We assume inductively that the envelope-graph of $\s_i$ $\vd[Q]{B}$ is stored as a refined envelope. 
+We assume inductively that the envelope-graph of $\s_i$ is stored as a refined envelope. 
 For the base case this holds as we assume that we have at hand the refined FVD of $\vd[Q]{B}$.
-In addition, we assume that for each vertex $v$ of $Q$, we know the site whose \icell contains $v$. 
+In addition, we maintain the invariant that for each vertex $v$ of $Q$, we know the site whose \icell contains $v$. 
 Moreover, we assume also that we have a pointer to the refined triangle of this \icell that contains $v$.
 
 \begin{figure}[ht]
@@ -1144,11 +1165,18 @@ Moreover, the refined envelope of $\s_i$ can be obtained within the same time fr
 
 
 
-We say that the \emph{complexity} of the envelope-graph of $\s_i$ is the number of vertices and arcs defining it.
+The \emph{complexity} of the envelope-graph of $\s_i$ is the number of vertices and arcs defining it.
 
-\begin{lemma}\label{lemma: Complexity of envelope-graph}
+\begin{restatable}{lemma}{ComplexityEnvelope}\label{lemma: Complexity of envelope-graph}
 The expected complexity of the envelope-graph of $\s_i$ is $O(n)$.
-\end{lemma}
+\end{restatable}
+\begin{proof}[Proof sketch]
+Recall that for $b\in B$, $\mu_b$ is the set of refined triangles that belong to $b$, and for $r\in R$, $\mu_r$ is the set of triangles used to describe $f_r$ inside of $G_r$. Since $\vd[Q]{B}$ is a FVD of $B$ in $Q$ and by Lemma~\ref{lemma:SPMForSitesR}, we know that $\ex{\sum_{s\in \s} |\mu_s|} = O(n)$. 
+We then argue that the complexity of the envelope-graph of $\s_i$ is at most $\sum_{s\in \s} |\mu_s|$, completing the proof.
+\end{proof}
+
+\newcommand{\ProofComplexityEnvelope}{
+\ComplexityEnvelope*
 \begin{proof}
 Recall that for each $b\in B$, $\mu_b$ denotes the set of refined triangles that belong to $b$. 
 Because $\vd[Q]{B}$ is a FVD of $B$ in $Q$, its Voronoi tree consists of $O(n)$ arcs and vertices.
@@ -1186,8 +1214,9 @@ Regardless of the case, we can assume without loss of generality that two of the
 That is, there must be a point $x$ in the interior of one of them such that the segment $x x^*$ intersects the other arc---a contradiction with our observation above.
 Therefore, each edge bounding a triangle of $\Gamma_i$ contains at most one vertex of degree two proving our claim.
 \end{proof}
+}
 
-We are now ready to provide the proof of our main results by combining the lemmas presented in this section. 
+We are now ready to combine these lemmas into the main result of this section.
 
 \begin{theorem}
 The envelope-graph and refined envelope of $\s_{|R|}$ can be computed in expected $O(n)$ time.
@@ -1240,19 +1269,25 @@ We can compute the FVD of $\s$ in $P$ in $O(n)$ time.
 \bibliographystyle{abbrvnat}
 \bibliography{Geodesic}}
 
-%\newpage 
-%\appendix
-%\section{Missing proofs.}
-%\setcounter{theorem}{5}
-%\ProofApexFVD
-%\setcounter{theorem}{9}
-%\ProofPropertiesOfQ
-%\setcounter{theorem}{11}
-%\ProofShadowPoints
-%\ProofSeparatingCurveShadow
-%\setcounter{theorem}{14}
-%\ProofBisectorFunctions
-%\setcounter{theorem}{16}
+\newpage 
+\appendix
+\section{Missing proofs.}
+\setcounter{theorem}{6}
+\ProofApexFVD
+\setcounter{theorem}{9}
+\ProofPropertiesOfQ
+\setcounter{theorem}{12}
+\ProofDistanceCoincideCell
+\setcounter{theorem}{13}
+\ProofShadowPoints
+\setcounter{theorem}{15}
+\ProofPatchContainsVcell
+\setcounter{theorem}{16}
+\ProofStructureEnvelope
+\setcounter{theorem}{17}
+\ProofPatchInGr
+\setcounter{theorem}{19}
+\ProofComplexityEnvelope
 %\ProofSpmSupersetOfCell
 %\ProofTimeInsertRedSite
 %\ProofComplexityEnvelope
