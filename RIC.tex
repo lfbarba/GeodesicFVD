@@ -42,7 +42,7 @@
 \usepackage{algorithmic}
 \usepackage{algorithm}
 \usepackage{hyperref,color}
-\usepackage[numbers]{natbib}
+%\usepackage[numbers]{natbib}
 %\usepackage{comment}
 %\usepackage{url}
 \usepackage{xspace}
@@ -53,7 +53,7 @@
 
 %\graphicspath{{./graphics/}}%helpful if your graphic files are in another directory
 
-\bibliographystyle{plain}% the recommended bibstyle
+\bibliographystyle{abbrv}% the recommended bibstyle
 
 % Author macros::begin %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{Optimal algorithm for geodesic farthest-point Voronoi diagrams}
@@ -140,9 +140,9 @@
 \begin{abstract}
 Let $P$ be a simple polygon with $n$ vertices.
 For any two points in $P$, the geodesic distance between them is the length of the shortest path that connects them among all paths contained in $P$. 
-Given a set $\s$ of $m$ sites being a subset of  the vertices of $P$, we present a randomized algorithm to compute the geodesic farthest-point Voronoi diagram of $\s$ in $P$ running in expected $O(n + m)$ time. 
+Given a set $\s$ of $m$ sites being a subset of  the vertices of $P$, we present the first randomized algorithm to compute the geodesic farthest-point Voronoi diagram of $\s$ in $P$ running in expected $O(n + m)$ time. 
 That is, a partition of $P$ into cells, at most one cell per site, such that every point in a cell has the same farthest site with respect to the geodesic distance. 
-In particular, this algorithm can be extended to run in expected $O(n + m\log m)$ time when $\s$ is an arbitrary set of $m$ sites contained in $P$, thereby solving the open problem posed by Mitchell in Chapter 27 of the Handbook of Computational Geometry.
+In particular, this algorithm can be extended to run in expected $O(n + m\log m)$ time when $\s$ is an arbitrary set of $m$ sites contained in $P$.
 \end{abstract}
 
 
@@ -190,12 +190,12 @@ In this way we obtain a new weakly simple polygon $P'$ and a new set of sites $\
 Therefore, a weighted FVD as described in this paper has the same properties as the classical farthest-point Voronoi diagram constructed using the geodesic distance~\cite{aronov1993furthest}. 
 In particular, we know that the Voronoi graph is a tree with leaves on the boundary of $P$.
 Also, each edge of this graph consists of a sequence of straight-lines and hyperbolic arcs that may intersect $\partial P$ only at its endpoints~\cite{aronov1993furthest}. 
-Thus, we refer to the Voronoi graph as a \emph{Voronoi tree} from now on.
+Thus, we refer to the Voronoi graph as a \emph{Voronoi tree}.
 While working with weighted sites might seem an unnecessary complication, we decided to work with them to ease the description of the recursive construction that our algorithm uses. 
 
 Let $\F{x, \s}$ be the function that maps each $x\in P$ to the $w$-distance to a $\s$-farthest neighbor of $x$ (i.e., $\F{x, \s} = \dd{x}{\f{x, \s}}$).
 Notice that $\F{x, \s}$ can be seen as the upper envelope of the $w$-distance functions from the sites in $\s$.
-Throughout the paper, we will play with this alternative way of thinking of Voronoi diagrams as graphs or upper envelopes.
+Throughout the paper, we will play with this alternative way of thinking of Voronoi diagrams, either as graphs or as upper envelopes.
 A point $c\in P$ that minimizes $\F{x, \s}$ is called the \emph{geodesic center} of $P$. 
 Similarly, a point $s\in P$ that maximizes $\F{x, \s}$ (together with $\f{s}$) forms a \emph{diametral pair} and their $w$-distance is the \emph{geodesic diameter}. 
 
@@ -216,28 +216,28 @@ For a set $\s$ of $m\geq 3$ sites in a simple $n$-gon $P$, Aronov~\cite{aronov19
 While the best known lower bound is $\Omega(n + m \log m)$, it was not known whether or not the dependence on $n$, the complexity of $P$, is linear in the running time.  
 In fact, this problem was explicitly posed by Mitchell~\cite[Chapter 27]{m-gspno-00} in the Handbook of Computational Geometry, and solving it has become a prominent area of research in recent years.
 Oh et al.~\cite{oh2016farthest} (SoCG'16) present the first improvement to this problem in more than 20 years. 
-Using the new tools presented by Ahn et a.~\cite{ahn2015linear}, they introduce an $O(n \log\log n+m\log m)$-time algorithm to compute $\vd{\s}$. 
+Using the new tools presented by Ahn et al.~\cite{ahn2015linear}, they introduce an $O(n \log\log n+m\log m)$-time algorithm to compute $\vd{\s}$. 
 As a stepping stone, they present an $O((n+m)\log\log n)$-time algorithm for the simpler case where all sites are vertices of $P$.
 In fact, any improvement on the latter algorithm translates directly to an improvement on the general problem.
-In particular, a linear time algorithm for the simpler case with sites on the boundary of $P$ suffices to match the lower bound and close the problem presented by Mitchel~\cite[Chapter 27]{m-gspno-00}.
+In particular, a linear time algorithm for the simpler case with sites on the boundary of $P$ suffices to match the lower bound and close the problem presented by Mitchell~\cite[Chapter 27]{m-gspno-00} in the case of farthest-point Voronoi diagrams.
 
 Recently, not only farthest-point Voronoi diagrams have received attention. 
 For the nearest-point geodesic Voronoi diagram, two papers have focused in finding algorithms matching the same lower bound of $\Omega(n + m\log m)$~\cite{chihungVoronoi,oh2017voronoi}.
-While the best results still work only for a limited range of $m$ with respect to $n$, both papers have appeared in consecutive years in the Symposium on Computational Geometry (SoCG).
-However, the techniques in these papers use data structures that require logarithmic factors, and hence is not conceivable to transform them to obtain a linear algorithm for the case when the sites are vertices of the polygon. 
+While these results work only for a limited range of $m$ with respect to $n$, both papers have appeared in consecutive years in the Symposium on Computational Geometry (SoCG). In a recent breakthrough to appear in SODA'19, Oh~\cite{oh2019SODA} presents an optimal algorithm to compute the nearest-point geodesic Voronoi diagram running in $O(n + m \log m)$ time.
+However, the techniques in these papers are fundamentally based on data structures with logarithmic query time, and hence is not conceivable to adapt them to obtain a linear-time algorithm for the case when the sites are vertices of the polygon. 
 
 \textbf{Our results.} 
-In this paper, we provide an optimal, albeit randomized, algorithm to compute $\vd{\s}$ for the special case where all sites of $\s$ are vertices of $P$.
-Our algorithm runs in expected $\Theta(n + m)$ time. 
+In this paper, we provide an optimal, albeit randomized, algorithm to compute $\vd{\s}$ for the important case where all sites of $\s$ are vertices of $P$.
+Our algorithm runs in expected $\Theta(n + m)$ time, and uses a completely different set of tools to solve the problem. 
 Using the reduction presented by Oh et al.~\cite{oh2016farthest}, we immediately obtain an algorithm for the general case where the sites can be arbitrary points in $P$.
-This algorithm matches the lower bound and runs in expected $\Theta(n + m\log m)$ time thereby solving the problem posed by Mitchel~\cite[Chapter 27]{m-gspno-00}.
-It remains open to find a deterministic algorithm with the same running.
+This algorithm matches the lower bound and runs in expected $\Theta(n + m\log m)$ time thereby solving the problem posed by Mitchell~\cite[Chapter 27]{m-gspno-00} in the case of farthest-point Voronoi diagrams.
+It remains open to find a deterministic algorithm with the same running time.
 
 \textbf{Our approach.}
 Let  $P$ be a simple $n$-gon and let $\s$ be a set of $m\geq 3$ sites contained in $V(P)$, where $V(P)$ is the set of vertices of~$P$.
 We present a randomized $O(n+m)$-time algorithm to compute the FVD of $\s$ in $P$.
 We would like to use a variation of the randomized incremental construction (\emph{RIC}) for Euclidean farthest-point Voronoi diagrams~\cite{de2000computational}.
-This algorithm inserts the sites, one by one, in random order and construct the cell of each newly inserted site in time proportional to its size. 
+This algorithm inserts the sites, one by one, in random order, and constructs the cell of each newly inserted site in time proportional to its size. 
 By bounding the expected size of each cell using backwards analysis, the incremental construction can be carried out in total linear time. 
 
 In the geodesic case however, the complexity of a cell depends not only on the set of sites, but also on the complexity of the polygon~\cite{aronov1989geodesic}. 
@@ -247,52 +247,52 @@ To achieve an incremental construction, one would need to have at hand a complet
 If this function is precomputed in the entire polygon, this would be too costly. 
 Thus, one needs to define these functions only at the specific locations where they are needed. 
 An additional problem is that for a RIC, the first inserted sites must have their $w$-distance defined in almost the entire polygon.
-Thus, already the description-size of the $w$-distances needed for the first batch of sites (say the the first $m/100$) becomes super linear. 
+Thus, already the description-size of the $w$-distances needed for the first batch of sites (say the the first $m/100$) becomes superlinear. 
 Therefore, it seems hopeless to try a RIC without somehow reducing the complexity of $P$ throughout the process. 
-Nevertheless, a RIC works great for all the sites that come after this first batch. 
+Nevertheless, a RIC works well for all the sites that come after this first batch. 
 Intuitively,  the latter insertions define smaller cells, and the space needed to describe their $w$-distances can be nicely bounded.
 Thus, the main question is how to deal with this first fraction of the sites.
 
 In this paper we overcome these difficulties with a novel approach, and manage to deal with this first fraction of the sites using pruning.
-First, we partition randomly the sites into $B$ and $R$, where $|B| \leq \alpha m$ for some constant $0 < \alpha < 1$ (Section~\ref{section:First phase}).
+First, we randomly partition the sites into $B$ and $R$, where $|B| \leq \alpha m$ for some constant $0 < \alpha < 1$ (Section~\ref{section:First phase}).
 Then, we construct recursively an ``approximation'' of the FVD of $B$ (Section~\ref{section:Smaller Polygon}). 
 To this end, we define a new weakly simple polygon $Q$ containing $B$ with only a constant fraction of the vertices of $P$. 
 Essentially we prune from $P$ all the vertices that have nothing to do with geodesic paths connecting sites in $B$ with points in their respective Voronoi cells. 
 Our approximation comes from recursively computing the FVD of $B$ in $Q$. 
 We show that the complexity of $Q$ decreases sufficiently so that the recursive call leads to a linear overall running time.
 
-Reducing the complexity however comes with a price. The $w$-distance from sites  of $B$ inside of $Q$ turns to be only ``similar'' to that in $P$.
+However, reducing the complexity comes with a price. The $w$-distance from sites  of $B$ inside of $Q$ turns to be only ``similar'' to that in $P$.
 However, we make sure that these functions are accurate where it matters. 
 After computing this ``Voronoi-like'' diagram for~$B$, we need to deal with the sites of $R$. 
 To this end, we turn to the RIC (Section~\ref{section: Insertion process}).
 We compute the $w$-distance from sites in $R$ only inside of specific parts of $P$, making sure that they suffice for our purpose, while their overall complexity remains linear.
 Another challenge comes from the fact that the $w$-distances from $B$ are with respect to $Q$, while the ones from $R$ are not.
-Thus, we need to prove that the upper envelope of these functions induces a Voronoi-like diagram.
-Once we deal with these technical details, we end up with an upper envelope of functions that we prove to coincide with the FVD of $\s$ in $P$ finishing our construction. 
+Thus, we need to prove that the upper envelope of these functions induces a Voronoi diagram.
+Once we deal with these technical details, we end up with an upper envelope of functions that we prove to coincide with the FVD of $\s$ in $P$, finishing our construction. 
 
 We show that the insertion of each site $r\in R$ can be carried out in expected $O(n/m)$ time.  
 Thus, inserting all sites of $R$ can be done in expected $O(n+ m)$ time.
 After inserting the sites of $R$, the expected total running time of our algorithm is given by the simple recurrence $\ex{T(n, m)} \leq T(n/2, m/2) + O(n+m) = O(n+ m)$.
-The crucial aspect with our approach that could not be achieved before this paper, is the reduction in the complexity of the polygon. 
+The crucial aspect of our approach that could not be achieved before this paper, is the reduction in the complexity of the polygon. 
 Overall, we combine many different tools, from recursion, pruning, and randomization, together with all the machinery to deal with geodesic functions. 
-Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix. 
+Due to space constraints, all results marked with $[*]$ have their full proof in the Appendix (use the hyperlinks marked with $[*]$ and $\hookleftarrow$ to navigate to (and back) form these missing proofs).
 
 \section{Preliminaries}
 
 Let $P$ be a simple $n$-gon and  let $\s$ be a set of $m\geq 3$ sites contained in $V(P)$. 
 Because $\s\subset V(P)$, we know that $m = |\s|\leq  n$.
 
-A subset $G\subseteq P$ is \emph{geodesically convex} in $P$ if for each $x,y\in G$, the geodesic path between $x$ and $y$ is contained in $G$, i.e., if $\p{x}{y}\subseteq P$.
+A subset $G\subseteq P$ is \emph{geodesically convex} in $P$ if for each $x,y\in G$, the geodesic path between $x$ and $y$ is contained in $G$, i.e., if $\p{x}{y}\subseteq G$.
 Given a set $A$ of points in $P$, the \emph{geodesic hull} of $A$ in $P$ is the minimum geodesically convex set in $P$ that contains $A$. 
 In particular, if $A\subseteq \partial P$, then the boundary of the geodesic hull of $A$ is obtained by joining consecutive points of $A$ along $\partial P$ by the geodesic path between them. Note that this geodesic hull is not necessarily a simple polygon but a weakly simple polygon. 
 Geodesic functions in weakly simple polygons behave in the exact same way as in simple polygons, and the existent machinery applies directly with no overhead~\cite{chang2014detecting}. 
-Thus, while many papers state their results for simple polygons, they applied directly to weakly simple polygons. 
+Thus, while many papers state their results for simple polygons, they apply directly to weakly simple polygons. 
 In particular, all results and tools presented in this paper apply directly to weakly simple polygons.
 This remark is already crucial in several recent papers~\cite{oh2016computing,oh2016farthest}.
 
 \begin{lemma}[Restatement of Lemma 2 of~\cite{kpairpath}]\label{lemma:Geodesic hull computation}
 Let $A\subseteq \partial P$ be a set of $O(n)$ points sorted along~$\partial P$. 
-The geodesic hull of $A$ in $P$ can be computed in $O(n)$ time.
+Then the geodesic hull of $A$ in $P$ can be computed in $O(n)$ time.
 \end{lemma}
 
 %An important consequence of the Lemma~\ref{lemma:Voronoi coincides for geodesically convex subsets} is the following result that will later allow us to simplify the structure of $P$ when computing FVDs. 
@@ -310,7 +310,7 @@ The geodesic hull of $A$ in $P$ can be computed in $O(n)$ time.
 
 
 Let $\bvd{\s}$ be the FVD of $\s$ restricted to the boundary of $P$. 
-More formally, for each $s\in \s$, let $\bcell{s, \s} = \cell{s, \s}\cap \partial P$ be the \emph{boundary cell} of $s$ and let $\bvd{\s}$ be the union of this boundary cells. The construction of $\bvd{\s}$ has always been a stepping stone in the computation of $\vd{\s}$~\cite{aronov1993furthest,oh2016farthest}, and in our algorithm it is not any different. 
+More formally, for each $s\in \s$, let $\bcell{s, \s} = \cell{s, \s}\cap \partial P$ be the \emph{boundary cell} of $s$ and let $\bvd{\s}$ be the union of these boundary cells. The construction of $\bvd{\s}$ has often been a stepping stone in the computation of $\vd{\s}$~\cite{aronov1993furthest,oh2016farthest}, and our algorithm follows the same approach. 
 The following result from~\cite{oh2016farthest} allows us to compute it efficiently.
 
 \begin{theorem}[Theorem 9~\cite{oh2016farthest}]\label{thm:VD in boundary}
@@ -318,7 +318,7 @@ Let $P$ be an $n$-gon and let $\s\subseteq V(P)$ be a set of sites.
 Then, we can compute $\bvd{\s}$ in $O(n)$ time. 
 \end{theorem}
 
-Using the above procedure, we can find out in $O(n)$ time which sites of $\s$ have a non-empty Voronoi cell. 
+Using this procedure, we can find out in $O(n)$ time which sites of $\s$ have a non-empty Voronoi cell. 
 Therefore, we can forget about the sites with empty cells and assume without loss of generality from now on that all sites of $\s$ have non-empty Voronoi cells.
 
 Given a site $s\in \s$ and a polygonal chain $C \subseteq \partial P$ with endpoints $p$ and $p'$, the \emph{funnel} of $s$ to $C$ in $P$, denoted by $\funnel{s\to C}$, 
@@ -335,7 +335,7 @@ Given a site $s\in \s$, the Voronoi cell $\cell{s, \s}$ is contained in the funn
 \end{lemma}
 
 We are also interested in bounding the total complexity of the funnels of sites in $\s$.
-Given a polygon $Q$, let $|Q|$ denotes its \emph{combinatorial complexity} (or just \emph{complexity}), i.e., the number of vertices and edges used to represent it. 
+Given a polygon $Q$, let $|Q|$ denote its \emph{combinatorial complexity} (or just \emph{complexity}), i.e., the number of vertices and edges used to represent it. 
 
 \begin{lemma}[Consequence of Corollaries 3.8 and 4.4 of~\cite{ahn2015linear}]\label{lemma:Complexity of funnels}
 Given an $n$-gon $P$ and a set $\s\subseteq V(P)$, $\sum_{s\in \s} |\funnel{s, \s}| = O(n)$.
@@ -361,7 +361,7 @@ Let $\LL$ be the set of leaves of $\vd{\s}$.
 We first notice that we can focus on a specific geodesically convex subpolygon of $P$ to compute $\vd{\s}$.
 
 \begin{lemma}\label{lemma:Voronoi coincides for geodesically convex subsets}
-Let $H$ be the geodesic hull $\s\cup \LL$ in $P$.
+Let $H$ be the geodesic hull of $\s\cup \LL$ in $P$.
 Then, for each $s\in \s$, $\cell[H]{s, \s} \subseteq \cell{s, \s}$. Moreover, the Voronoi trees of $\vd[H]{\s}$ and $\vd{\s}$ coincide. 
 \end{lemma}
 \begin{proof}
@@ -377,10 +377,10 @@ We know that its boundary consists of geodesic paths that connect consecutive po
 However, this geodesic hull $H$ is not necessarily a simple polygon; see Figure~\ref{fig:FVD}. 
 To make it simple, we need to deal with ``dangling paths'' as follows.
 
-We say that a vertex of $H$ is \emph{$H$-open} if it is incident to its interior.
+We say that a vertex of $H$ is \emph{$H$-open} if it is incident to the interior of $H$.
 For each $s\in \s$, let $a_s$ be the $H$-open vertex of $\funnel{s, \s}$ that is geodesically closest to $s$. 
 Note that all paths from $s$ to any point in the interior of $H$ pass through $a_s$.
-However, as long as the length of the geodesic path $\p{\s}{a_s}$ remains the same, the shape of this path is irrelevant. 
+However, as long as the length of the geodesic path $\p{s}{a_s}$ remains the same, the shape of this path is irrelevant. 
 In fact, this is equivalent to giving $a_s$ a weight such that each distance measured from $a_s$ to points in the interior of $H$ has 
 an added value of $\dd{s}{a_s}$. 
 
@@ -388,7 +388,7 @@ To formalize this intuition, we define a new polygon, a new set of sites, and ne
 Let $\A = \{a_s: s\in \s\}$ be the set of $m$ $H$-open vertices defined by $\s$. These vertices are our new set of sites.
 Let $G(P, \s)$ (or simply $G$ if $P$ and $\s$ are clear from the context) be the geodesic hull of $\A\cup \LL$ in $P$.
 Note that $G\subseteq H$ is a simple polygon by the definition of each $a_s$ in $\A$.
-We define a new weight function $w':G\to \mathbb{R}$ so that $w'(x) = \begin{cases} \dd{s}{a_s}& \text{if }x=a_s\in \A \\ 0&\text{otherwise} \end{cases}$  (if $s$ and $a_s$ coincide, then their weights coincide).
+We define a new weight function $w':G\to \mathbb{R}$ so that $w'(x) = \begin{cases} \dd{s}{a_s}& \text{if }x=a_s\in \A \\ 0&\text{otherwise} \end{cases}$,  if $s$ and $a_s$ coincide, then their weight is $w(s)$.
 With this new weight function, we can think of $\A$ as a set of weighted sites in $G$.
 %Moreover, for each $x\in P$ and a site $a_s\in \A$, 
 %we define a \emph{weighted distance function} $\dd{a_s}{x} = w(a_s) + \dd{a_s}{x} = \dd{s}{a_s} + \dd{a_s}{x} = \dd{s}{x}$.
@@ -397,12 +397,13 @@ With this new weight function, we can think of $\A$ as a set of weighted sites i
 %Thus, from now on we can assume that all our sites are weighted, and that distances are measured using the weighted distance function $\dd{s}{x}$ from any site $s\in \s$.
 
 \begin{restatable}{lemma}{ApexFVD}\label{lemma:ApexFVD}
-$[*]$ 
+\hyperref[ProofApexFVD]{$[*]$}
 It holds that $\vd[G]{\A}$ and $\vd[P]{\s}$ have the same Voronoi trees.
 \end{restatable}
 \newcommand{\ProofApexFVD}{
-\ApexFVD*
-\begin{proof}
+\ApexFVD* 
+\begin{proof}\label{ProofApexFVD}
+\hyperref[lemma:ApexFVD]{$\hookleftarrow$}
 Notice that $G$ is a subset of $H$ such that $int(G)\subset int(H)$.
 Let $s$ be a site of $\s$ and let $x\in G$. 
 Because $G$ is a geodesically convex subset of $P$, and since $a_s, x\in G$, we know that $\p[G]{a_s}{x} = \p{a_s}{x}$, and hence the length of these paths is simply $\g{a_s}{x}$ . 
@@ -418,7 +419,7 @@ Compute $\bvd{\s}$ and the funnel $\funnel{s, \s}$ of each site in $\s$ in total
 Because $\s\cup \LL\subseteq \partial P$ and has size $2 m = O(n)$, we can compute $H$ the geodesic hull of $\s\cup \LL$ in $P$ in $O(n)$ time using Lemma~\ref{lemma:Geodesic hull computation}. 
 After that, consider the set $\A$ of $H$-open vertices as defined above.
 Again, we can compute the geodesic hull $G$ of $\A\cup \LL$ in $P$ in $O(n)$ time using Lemma~\ref{lemma:Geodesic hull computation}. 
-By Lemma~\ref{lemma:ApexFVD}, $\vd[G]{\A}$ and $\vd[P]{B}$ coincide, so we can forget about $P$ and $S$, and focus simply on $G$ and $\A$ to compute the FVD.
+By Lemma~\ref{lemma:ApexFVD}, $\vd[G]{\A}$ and $\vd{\s}$ coincide, so we can forget about $P$ and $S$, and focus simply on $G$ and $\A$ to compute the FVD.
 We call this process the \emph{simplification transform}; see Figure~\ref{fig:FVD}. 
 Note that the only convex vertices of $G$ are the sites in $\A$ and the leaves in $\LL$. 
 We summarize the main properties of this simplification transform in the following result.
@@ -449,7 +450,7 @@ Let $0 < \alpha < 1$ be some constant to be defined later.
 Let $B$ and $R$ be a partition of $\s$ such that $B$ consists of the first $\lfloor \frac{\alpha}{\tau} m\rfloor$ sites according to $\Pi$, and~$R = \s\setminus B$. 
 
 \begin{observation}\label{obs: Complexity of B and R}
-It holds that $\ex{\cost{B}} = \alpha n$ and $|B|= \lfloor \frac{\alpha}{\tau} m\rfloor \leq \alpha m$. 
+It holds that $\ex{\cost{B}} \leq \alpha n$ and $|B|= \lfloor \frac{\alpha}{\tau} m\rfloor \leq \alpha m$. 
 \end{observation}
 
 %This observation implies that we need to repeat the construction of $B$ and $R$ only an expected constant number of times before we can guarantee that~$\cost{B} \leq \alpha n$.
@@ -476,12 +477,12 @@ It holds that $\ex{\cost{B}} = \alpha n$ and $|B|= \lfloor \frac{\alpha}{\tau} m
 %Recall that $\bcell{s, \s} = \cell{s, \s}\cap \partial P$ for any $s\in \s$. 
 %For each site $r\in R$, let $C_r$ be the maximum polygonal chain in the partition of $\partial P$ that contains $\bcell{r, \s}$.%; see Figure~\ref{}. 
 %That is, we walk from $\bcell{r, \s}$ clockwise and counterclockwise along $\partial P$ until finding purple points. 
-%Once the funnel $\funnel{r\to C_r}$, we will compute later the geodesic distance function from $r$ only inside of this funnel.
+%Once the funnel $\funnel{r\to C_r}$ is computed, we will compute later the geodesic distance function from $r$ only inside of this funnel.
 %The following result guarantees that the collection of all these funnels is still small enough.
 %Moreover, it guarantees that the Voronoi cell $\cell{r, B\cup \{r\}}$ is contained in this funnel. 
 %Later we will show that the distance information from $r$ inside of this funnel is enough for our purpose. 
 %
-%\begin{restatable}{lemma}{SPMForSitesR}\label{lemma:SPMForSitesR}
+%\begin{restatable}{lemma}{SPMForSitesR}
 %$[*]$ It holds that $\cell{r, B\cup \{r\}}$ is contained in the funnel $\funnel{r \to C_r}$. Moreover, $$\ex{\sum_{r\in R} |\funnel{r \to C_r}|} = O(n).$$
 %\end{restatable}
 %\begin{proof}[Proof sketch]
@@ -562,7 +563,7 @@ $c)$ The polygon $Q$ is obtained by taking a rubber band and keeping attached at
 \end{figure}
 
 \begin{restatable}{lemma}{PropertiesOfQ}\label{lemma:PropertiesOfQ}
-$[*]$ 
+\hyperref[ProofPropertiesOfQ]{$[*]$}
 The polygon $Q$ contains $P$, is weakly simple, can be computed in expected $O(n)$ time, and has at most $\alpha n + 4m$ vertices.
 Moreover, for $x,y\in P$, it holds that $\g[Q]{x}{y} \leq \g{x}{y}$. 
 In particular, for each $b\in B$ and $x\in P$, $\dd[Q]{b}{x} \leq \dd{b}{x}$, and if $x\in \cell{b, \s}$, then $\dd[Q]{b}{x} = \dd{b}{x}$.
@@ -574,7 +575,8 @@ Therefore, $Q$ consists of at most $|V_B| +  2|V_C| \leq \alpha n + 4m$ vertices
 \end{proof}
 \newcommand{\ProofPropertiesOfQ}{
 \PropertiesOfQ*
-\begin{proof}
+\begin{proof}\label{ProofPropertiesOfQ}
+\hyperref[lemma:PropertiesOfQ]{$\hookleftarrow$}
 The boundary of $Q$ can be constructed by connecting consecutive  points in $V_B\cup V_C$ by geodesics contained in the complement of $P$, i.e., in a domain that has $P$ as a hole or obstacle ($Q$ is also known as the relative hull of $V_B\cup V_C$ in this domain). 
 Note however that we do not need to deal with geodesics in domains with holes. 
 We can take a box sufficiently large to enclose $P$, and connect it using a small corridor with the left most vertex of $P$ to create a new polygon $P^\circ$ that essentially is a box with $P$ as a ``hole''; see Figure~\ref{fig:ConstructingQ}. 
@@ -601,7 +603,7 @@ Moreover, for some $b\in B$, notice that $V_B$ contains all vertices of $\funnel
 
 
 Our plan is now to compute the FVD of $B$ in the new polygon $Q$, and then use this as a ``good'' approximation of $\vd{B}$ in $P$. 
-With good, we mean that the red sites can be randomly inserted in this diagram, and that the result of this whole process is indeed $\vd{\s}$. 
+By ``good'' we mean that the red sites can be randomly inserted in this diagram, and that the result of this whole process is indeed $\vd{\s}$. 
 We will prove this properties in the next section, but for now, we focus on describing the recursive algorithm.
 
 %By Lemma~\ref{lemma:PropertiesOfQ}, $Q$ has at most $\alpha n + 2m$ reflex vertices.
@@ -615,7 +617,7 @@ We will prove this properties in the next section, but for now, we focus on desc
 %Since $|\LL[B,Q]| = |B| = |\A| \leq \alpha m$, we conclude that $G$ consists of at most $\alpha n + 2m$ reflex vertices (the reflex vertices in $Q$) and at most $|\A| + |\LL[B,Q]|\leq 2\alpha m$ convex vertices. 
 Let $I(n,m)$ be the time to insert back the sites of $R$ and obtain $\vd{\s}$ after having recursively computed $\vd[Q]{B}$.
 Because $Q$ consists of at most $\alpha n + 4m$ vertices by Lemma~\ref{lemma:PropertiesOfQ}, and since $|B|\leq \alpha m$ by Lemma~\ref{obs: Complexity of B and R}, we get a recursion of the form $T(n, m) = T(\alpha n + 4m, \alpha m) + I(n,m)$ for the running time of our algorithm. 
-We claim that $I(n,m) = O(n+m)$, and we prove it in the next couple of sections.
+We claim that $I(n,m) = O(n+m)$, and we prove it in the next section.
 However, for $T(n,m)$ to solve to $O(n+ m)$, we need to look at one more iteration of the recursion, as it can be that $\alpha n + 4m$ is not really smaller than $n$ if $m$ is large. 
 Fortunately, because $T(\alpha n + 4m, \alpha m) = T(\alpha(\alpha n + 4m) + 4\alpha m, \alpha^2 m) + I(\alpha n + 4m, \alpha m)$, and by our assumption on the running time of $I(n,m)$, we get that
 \[T(n,m) = T(\alpha^2 n + 8\alpha m, \alpha^2 m) + O(n+m) + O(\alpha n + 4m + \alpha m).\]
@@ -632,7 +634,7 @@ Note that we cannot define these distance functions in the entire polygon, other
 On the other hand, if its representation is too narrow, then during the insertion it might be that the distance information is insufficient.
 
 Recall that $\LL$ denotes the set of leaves of $\vd{\s}$.
-Color the leaves in $\LL$ \emph{purple} if they bound the Voronoi cell of a site in $B$ and a site in $R$; see Figure~\ref{fig:RedPreprocessing}.
+Color the leaves in $\LL$ \emph{purple} if they are incident to the Voronoi cell of a site in $B$ and a site in $R$; see Figure~\ref{fig:RedPreprocessing}.
 
 
 \begin{figure}[ht]
@@ -662,7 +664,7 @@ Since $P\subset Q$, we know that $G_r\subseteq Q$.
 Moreover, the funnel $\funnel{r\to \partial P(u_r, v_r)}$ is contained in $G_r$; see Figure~\ref{fig:RedPreprocessing}.
 
 \begin{restatable}{lemma}{SPMForSitesR}\label{lemma:SPMForSitesR}
-$[*]$ 
+\hyperref[ProofSPMForSitesR]{$[*]$}
 Given $r\in R$, it holds that $\cell{r, \s}\subseteq G_r$. 
 Moreover, it holds that 
 \[ \ex{\sum_{r\in R} |G_r|} = O(n)\text{ and }\bigcup_{r\in R} G_r = Q.\]
@@ -671,7 +673,8 @@ Moreover, it holds that
 %\end{proof}
 \newcommand{\ProofSPMForSitesR}{
 \SPMForSitesR*  
-\begin{proof}
+\begin{proof}\label{ProofSPMForSitesR}
+\hyperref[lemma:SPMForSitesR]{$\hookleftarrow$}
 Recall that by Lemma~\ref{lemma:Voronoi cell in funnel}, we know that $\cell{r, \s}$ is contained in the funnel $\funnel{r, \s}$.
 Moreover, $\funnel{r, \s}$ is contained in $\funnel{r\to  \partial P(u_r, v_r)}$, which in term is contained in $G_r$ by construction.
 Therefore, $\cell{r, \s}\subseteq G_r$ as claimed. 
@@ -704,10 +707,10 @@ The two factor comes from walking clockwise and counterclockwise from $r$ along 
 Note however that since $r\in R$, $rank(r) > \frac{\alpha}{\tau} m$ by Observation~\ref{obs: Complexity of B and R}.
 Thus, $Pr[\chi^r_s = 1] \leq 2\left(\frac{\tau - \alpha}{\tau}\right)^{\delta(r,s)}$.
 By definition, we know that $|R_r| = \sum_{s\in \s} \chi^r_s$.
-Applying expectations, we get that $\exw{|R_r|} \leq 2 \sum_{s\in \s} \left(\frac{\tau - \alpha}{\tau}\right)^{-\delta(r,s)}$. 
-Note that we can order the sites of $\s$ according to their distance $\delta(r, s)$.
+Applying expectations, we get that $\exw{|R_r|} \leq 2 \sum_{s\in \s} \left(\frac{\tau - \alpha}{\tau}\right)^{\delta(r,s)}$. 
+Note that we can order the sites of $\s$ according to $\delta(r, s)$.
 Thus, we can rewrite the summation as \linebreak
-$\exw{ |R_r| } \leq 2 \sum_{i = 0}^{m-1} \left(\frac{\tau - \alpha}{\tau}\right)^{-i}  = O(1).$
+$\exw{ |R_r| } \leq 2 \sum_{i = 0}^{m-1} \left(\frac{\tau - \alpha}{\tau}\right)^{i}  = O(1).$
 Consequently, we conclude that $ \ex{\sum_{r\in R} |G_r|} = O(n)$.
 
 It remains only to show that $\bigcup_{r\in R} G_r = Q$. To this end, note that $\cell{r, \s}$ is contained in $G_r$, and hence, the union of all the $G_r$'s covers all the Voronoi cells in $\vd{\s}$.
@@ -798,13 +801,14 @@ In this case we say that $\p[G_r]{r}{x}$ is a \emph{witness path} of the value o
 Note that by Lemma~\ref{lemma:SPMForSitesR}, the functions $f_r$ jointly cover polygon $Q$. 
 
 \begin{restatable}{lemma}{DistanceCoincideCell}\label{lemma: f_r and distance coincide in cell}
-$[*]$
+\hyperref[ProofDistanceCoincideCell]{$[*]$}
 Let $r\in R$.
 Given $x\in P$, it holds that $f_r(x) \leq \dd{r}{x}$. Moreover, if $x\in \cell{r, \s}$ and the path $\p{r}{x}$ contains no point of $\bcell{r, \s}$ other than its endpoints, then $f_r(x) = \dd{r}{x}$. 
 \end{restatable}
 \newcommand{\ProofDistanceCoincideCell}{
 \DistanceCoincideCell*
-\begin{proof}
+\begin{proof}\label{ProofDistanceCoincideCell}
+\hyperref[lemma: f_r and distance coincide in cell]{$\hookleftarrow$}
 By Lemma~\ref{lemma:Voronoi cell in funnel}, we know that if $x\in \cell{r,\s}$, then  $x$ belongs to $\funnel{r, \s}$.
 Moreover, since $\funnel{r, \s}$ is contained in $G_r$, we know that 
 \[ f_r(x) = \dd[G_r]{r}{x} \leq \dd[\funnel{r, \s}]{r}{x} = \dd{r}{x}.\]
@@ -842,14 +846,15 @@ Notice that if a point $x$ is \idom, then the witness path of $f_s(x)$ must be d
 
 
 \begin{restatable}{lemma}{ShadowPoints}\label{lemma:Shadow points}
-$[*]$ 
+\hyperref[ProofShadowPoints]{$[*]$}
 Let $s$ be a site of $\s$, and let $x$ be a point that is \idom by $s$. If $z\in Q$ is a point that lies on the witness path of $f_s(z)$,
 then $z$ is \idom by~$s$. 
 \end{restatable}
 
 \newcommand{\ProofShadowPoints}{
 \ShadowPoints*  
-\begin{proof}
+\begin{proof}\label{ProofShadowPoints}
+\hyperref[lemma:Shadow points]{$\hookleftarrow$}
 Let $\gamma$ be the witness path of $f_s(z)$, and let $\gamma(x, z)$ denote the subpath of $\gamma$ connecting $x$ with $z$.
 We prove the result by induction on the number of vertices of $\gamma(x, z)$.
 For the base case, if $\gamma(x, z)$ consists of the single vertex $x = z$, then the results hold trivially. 
@@ -929,14 +934,15 @@ If $x$ is \idom by $s$, then its $s$-shadow is also \idom by $s$ and lies on $\p
 The following result is crucial to guarantee the the resulting structure after the incremental construction coincides with the desired FVD of $\s$.
 
 \begin{restatable}{lemma}{PatchContainsVcell}\label{lemma:Patch contains vcell} 
-$[*]$
+\hyperref[ProofPatchContainsVcell]{$[*]$}
 For each $0\leq i \leq |R|$ and for each site $s\in \s_i$, 
 each point in the Voronoi cell $\cell{s, \s}$ is \idom by $s$.
 \end{restatable}
 
 \newcommand{\ProofPatchContainsVcell}{
 \PatchContainsVcell*  
-\begin{proof}
+\begin{proof}\label{ProofPatchContainsVcell}
+\hyperref[lemma:Patch contains vcell]{$\hookleftarrow$}
 Let $b\in B$ and let $x\in \cell{b, \s}$. 
 Because $f_b(x) = \dd{b}{x}$ by Observation~\ref{obs: f_s and distance coincide in cell}, and since $\dd{b}{x} \geq \dd{s}{x}$ for any $s\in \s_i$ by definition of Voronoi cell, we know that $f_b(x) \geq \dd{s}{x}$ for any $s\in \s_i$. Moreover, as $x\in P$, Observation~\ref{obs: f_s and distance coincide in cell} and Lemma~\ref{lemma: f_r and distance coincide in cell} imply that $\dd{s}{x} \geq f_s(x)$. 
 Thus, we conclude that $f_b(x) \geq f_s(x)$ for any $s\in \s_i$, i.e., $x$ is \idom by $s$. That is, $\cell{b, \s}$ is \idom by $b$ for each $b\in B$.
@@ -1021,17 +1027,18 @@ However, Lemma~\ref{lemma:Patch contains vcell} guarantees that for each site $s
 Therefore, $\cell{s, \s}$ is still contained in the \icell of $s$, i.e., the \icell of $s$ is non-empty.
 
 \begin{restatable}{lemma}{StructureEnvelope}\label{lemma:Structure of the envelope}
-$[*]$
+\hyperref[ProofStructureEnvelope]{$[*]$}
 The envelope-graph of $\s_i$ is a tree with at most $2|\s_i|$ leaves lying on the boundary of $Q$.
 \end{restatable}
 \begin{proof}[Proof sketch]
-The proof is by induction with $\vd[Q]{B}$ as base case. 
+The proof is by induction, with $\vd[Q]{B}$ as base case. 
 When inserting the $i$-th site $r\in R$ into the envelope-graph of $\s_{i-1}$, the \icell of $r$ is connected and intersects $\partial Q$ in a single connected component. By adding this \icell, the tree structure is preserved.
 \end{proof}
 
 \newcommand{\ProofStructureEnvelope}{
 \StructureEnvelope*
-\begin{proof}
+\begin{proof}\label{ProofStructureEnvelope}
+\hyperref[lemma:Structure of the envelope]{$\hookleftarrow$}
 We prove the result by induction $i$. For the base case the result holds for the Voronoi tree of $\vd[Q]{B}$ which has $|B| = |\s_0|$ leaves on the boundary of $Q$.
 When inserting the $i$-th site $r$ of $R$ into the envelope-graph of $\s_{i-1}$, we know that the \icell of $r$ is connected by construction.
 We claim further that the \icell of $r$ intersects $\partial Q$ in a single connected component.
@@ -1065,11 +1072,13 @@ Because the insertion of $r$ added at most 2 new leaves to the envelope-graph, b
 }
 
 \begin{restatable}{lemma}{PatchInGr}\label{lemma: Patch in G_r}
+\hyperref[ProofPatchInGr]{$[*]$}
 The \icell of $r$ is contained in $G_r$ and does not intersect the walls of~$G_r$.
 \end{restatable}
 \newcommand{\ProofPatchInGr}{
 \PatchInGr*
-\begin{proof}
+\begin{proof}\label{ProofPatchInGr}
+\hyperref[lemma: Patch in G_r]{$\hookleftarrow$}
 Because $f_r$ is only defined in $G_r$, we get trivially that the \icell of $r$ is contained in $G_r$. To prove the second part of the result,
 recall that the walls of $G_r$ are defined by the paths $\p{r}{u_r}$ and $\p{r}{v_r}$, where $u_r$ and $v_r$ lie strictly inside of the Voronoi cells of some blue sites (see Section~\ref{sec: Preprocessing of red sites}).
 By Lemma~\ref{lemma:Patch contains vcell}, we know then that $u_r$ and $v_r$ lie strictly inside the \icells of some blue sites in $B$.
@@ -1107,6 +1116,23 @@ For each $b\in B$, let $\mu_b$ be the set of refined triangles that belong to $b
 For a site $r\in R$, let $\mu_r$ denote the set of triangles used to describe $f_r$, i.e,  the set of triangles in the SPM of $r$ inside of $G_r$.
 Thus regardless of the case $\mu_s$ denotes a set of triangles (and their associated distance function) \emph{owned} by $s$.
 
+\begin{restatable}{lemma}{TimeInsertionR}\label{lemma:Time to insert one site of R}
+\hyperref[ProofTimeInsertionR]{$[*]$}
+Let $r$ be the $i$-th site of $R$ inserted in our randomized incremental construction. 
+The \icell of $r$ can be computed in $O(M_r + D_r + |\mu_r|)$ time, where $M_r$ is the size of the \icell of $r$, and $D_r$ is the number of arcs of the envelope-graph of $\s_{i-1}$ that disappear.
+Moreover, the refined envelope of $\s_i$ can be obtained within the same time from that of $\s_{i-1}$.
+\end{restatable}
+\begin{proof}[Proof Sketch]
+To compute the \icell of $r$, the first step is to find a point lying on its boundary, which can be done by locating the leaves of $\LL$ bounding $\bcell{r, \s}$.
+Next, we walk along $\partial Q$ until finding an endpoint $z$ of the intersection of $\partial Q$ with the \icell of~$r$. 
+Finally, we trace the boundary of the \icell of $r$ inside of $Q$ in the standard way used in the RIC of Euclidean Voronoi diagrams. 
+That is,  by walking along the overlay of the triangles in $\mu_r$ and the refined triangles of the refined envelope of $\s_{i-1}$, and constructing each arc of the \icell of $r$ at a time. The insertion time is then proportional to the size of the \icell.
+\end{proof}
+
+\newcommand{\ProofTimeInsertionR}{
+\TimeInsertionR*
+\begin{proof}\label{ProofTimeInsertionR}
+\hyperref[lemma:Time to insert one site of R]{$\hookleftarrow$}
 To compute the \icell of $r$, the first step is to find a point lying on its boundary.
 Note that by Lemma~\ref{lemma:Patch contains vcell}, we can easily find some points on $\partial Q$ that lie in the \icell of $r$.
 Namely, we can take an endpoint $\ell$ of $\bcell{r, \s}$. 
@@ -1120,7 +1146,7 @@ Otherwise, we know that $H\cap \partial Q$ is entirely contained in the \icell o
 Note that the counterclockwise endpoint of $H\cap \partial Q$ belongs to the boundary of either $\triangle$ or $\triangle'$. 
 In the former case, we move to the next refined triangle along $\partial Q$ of the refined envelope of $\s_{i-1}$, 
 or in the latter case to the neighboring triangle of $\triangle'$ in $\mu_r$.
-After moving, we can redefine $H$ and repeat the process until finding an endpoint $z$ of the boundary of the \icell of $r$; see Figure~\ref{fig:RrefinedDiagram}. 
+After moving, we can redefine $H$ and repeat the process until finding an endpoint $z$ of the intersection of $\partial Q$ with the \icell of $r$; see Figure~\ref{fig:RrefinedDiagram}. 
 Lemma~\ref{lemma: Patch in G_r} implies that $z$ will be reached before reaching a point on the wall of $G_r$.
 The time needed to find $z$ is then proportional to the number of visited triangles. 
 
@@ -1153,14 +1179,11 @@ Because each operation takes constant time, the total running time is linear on 
 Once we have computed the boundary of the \icell of $r$, we must simply crop each triangle in the description of $f_r$ that defines and arc bounding the \icell of $r$. 
 In this way, we obtain the refined triangles of the \icell of $r$.
 In a similar way, we can update the visited triangles of the refined envelope of $\s_{i-1}$ by removing their portion inside of the \icell of $r$.
-Moreover, we know which arcs of the envelope-graph of $\s_{i-1}$ disappear, so we can remove them and update the graph to obtain both the envelope-graph and the refined envelope of $\s_i$. 
+Moreover, we know which arcs of the envelope-graph of $\s_{i-1}$ disappear, so we can remove them and update the graph to obtain both the envelope-graph and the refined envelope of~$\s_i$. 
+\end{proof}
+}
 
 
-\begin{lemma}\label{lemma:Time to insert one site of R}
-Let $r$ be the $i$-th site of $R$ inserted in our randomized incremental construction. 
-The \icell of $r$ can be computed in $O(M_r + D_r + |\mu_r|)$ time, where $M_r$ is the size of the \icell of $r$, and $D_r$ is the number of arcs of the envelope-graph of $\s_{i-1}$ that disappear.
-Moreover, the refined envelope of $\s_i$ can be obtained within the same time from that of $\s_{i-1}$.
-\end{lemma}
 
 
 
@@ -1168,16 +1191,18 @@ Moreover, the refined envelope of $\s_i$ can be obtained within the same time fr
 The \emph{complexity} of the envelope-graph of $\s_i$ is the number of vertices and arcs defining it.
 
 \begin{restatable}{lemma}{ComplexityEnvelope}\label{lemma: Complexity of envelope-graph}
+\hyperref[ProofComplexityEnvelope]{$[*]$}
 The expected complexity of the envelope-graph of $\s_i$ is $O(n)$.
 \end{restatable}
 \begin{proof}[Proof sketch]
 Recall that for $b\in B$, $\mu_b$ is the set of refined triangles that belong to $b$, and for $r\in R$, $\mu_r$ is the set of triangles used to describe $f_r$ inside of $G_r$. Since $\vd[Q]{B}$ is a FVD of $B$ in $Q$ and by Lemma~\ref{lemma:SPMForSitesR}, we know that $\ex{\sum_{s\in \s} |\mu_s|} = O(n)$. 
-We then argue that the complexity of the envelope-graph of $\s_i$ is at most $\sum_{s\in \s} |\mu_s|$, completing the proof.
+Using a charging argument, we prove that the complexity of the envelope-graph of $\s_i$ is at most $\sum_{s\in \s} |\mu_s|$.
 \end{proof}
 
 \newcommand{\ProofComplexityEnvelope}{
 \ComplexityEnvelope*
-\begin{proof}
+\begin{proof}\label{ProofComplexityEnvelope}
+\hyperref[lemma: Complexity of envelope-graph]{$\hookleftarrow$}
 Recall that for each $b\in B$, $\mu_b$ denotes the set of refined triangles that belong to $b$. 
 Because $\vd[Q]{B}$ is a FVD of $B$ in $Q$, its Voronoi tree consists of $O(n)$ arcs and vertices.
 Therefore, $\sum_{b\in B} |\mu_b| = O(n)$.
@@ -1218,11 +1243,25 @@ Therefore, each edge bounding a triangle of $\Gamma_i$ contains at most one vert
 
 We are now ready to combine these lemmas into the main result of this section.
 
-\begin{theorem}
+\begin{restatable}{theorem}{FinalTheorem}\label{thm:Final Theorem}
+\hyperref[ProofFinalTheorem]{$[*]$}
 The envelope-graph and refined envelope of $\s_{|R|}$ can be computed in expected $O(n)$ time.
 Moreover, for each $s\in \s$, the envelope-graph of $\s_{|R|}$ coincides with the Voronoi tree of $\vd{\s}$.
-\end{theorem}
-\begin{proof}
+\end{restatable}
+\begin{proof}[Proof Sketch]
+By Lemma~\ref{lemma:Patch contains vcell}, the \icell[|R|] of each site $s$ of $\s$ contains its corresponding Voronoi cell $\cell{s, \s}$. 
+Because the union of these Voronoi cells covers $P$, we conclude that the \icell[|R|] of $s$ and $\cell{s, \s}$ coincide inside $P$ for each $s\in \s$.
+That is, the envelope-graph of $\s_{|R|}$ coincides with the Voronoi tree of $\vd{\s}$.
+
+By Lemma~\ref{lemma:Time to insert one site of R}, 
+the time needed to insert all sites of $R$, is $O(\sum_{r\in R} (M_r + D_r + |\mu_r|))$. Using backwards analysis, we show that $\ex{M_r} = O(n/|S|)$.
+Therefore, $\ex{\sum_{r\in R} M_r} = O(n)$. Moreover, Lemma~\ref{lemma:SPMForSitesR} implies that $\sum_{r\in R} \mu_r = O(n)$, and since an arc is destroyed only once, we can charge this cost to the creation of the arc. Putting everything together, we conclude that the expected time needed to insert all red sites is $O(n)$.
+\end{proof}
+
+\newcommand{\ProofFinalTheorem}{
+\FinalTheorem*
+\begin{proof}\label{ProofFinalTheorem}
+\hyperref[thm:Final Theorem]{$\hookleftarrow$}
 By Lemma~\ref{lemma:Patch contains vcell}, the \icell[|R|] of each site $s$ of $\s$ contains its corresponding Voronoi cell $\cell{s, \s}$. 
 Because the union of these Voronoi cells covers $P$, we conclude that the \icell[|R|] of $s$ and $\cell{s, \s}$ coincide inside $P$ for each $s\in \s$.
 That is, the envelope-graph of $\s_{|R|}$ coincides with the Voronoi tree of $\vd{\s}$.
@@ -1239,7 +1278,7 @@ We claim that $\ex{M_r} = O(n/m)$, where $m = |\s|$.
 If this claim is true, then by Lemma~\ref{obs: Complexity of B and R} and linearity of expectation, 
 \[\ex{\sum_{r\in R} M_r} = O\left(\frac{|R| n}{m}\right) =  O(n).\]
 Moreover, we know that $\ex{\sum_{r\in R} |\mu_r|} = O(n)$ by Lemma~\ref{lemma:SPMForSitesR} and the definition of $\mu_r$.
-Finally, since an arc can only be created once, then the total number of arcs that disappear is at most the number of arcs created, which is the number of arcs in $\vd[Q]{B}$, plus the arcs accounted in each $M_r$. Thus, by our previous arguments $\ex{\sum_{r\in R} D_r}  \leq  O(n) + \ex{\sum_{r\in R} |\mu_r|} = O(n)$.
+Finally, since an arc can only be created once, then the total number of arcs that disappear is at most the number of arcs created, which is the number of arcs in $\vd[Q]{B}$, plus the arcs accounted in each $M_r$. Thus, by our previous arguments $\ex{\sum_{r\in R} D_r}  \leq  O(n) + \ex{\sum_{b\in B} |\mu_b|} = O(n)$.
 Consequently, if our claim about the expected value of $M_r$ is true, then the expected total running time to insert $|R| = O(m)$ sites, and compute the envelope-graph of $\s_{|R|}$ is 
 \[O\left( \ex{\sum_{r\in R} M_r + \sum_{r\in R} D_r + \sum_{r\in R} |\mu_r|}\right) = O(n).\]
 
@@ -1256,38 +1295,45 @@ Note that $\sum_{s\in \s_i} M_s$ coincides with the complexity of the envelope-g
 Thus, because Lemma~\ref{lemma: Complexity of envelope-graph} implies that $\ex{\sum_{s\in \s_i} M_s} = O(n)$, we get that  $\ex{M_r} = O(n/|\s_i|)$.
 Because $\alpha m \leq |B| \leq |\s_i| \leq m$ by Lemma~\ref{obs: Complexity of B and R}, we conclude that $\ex{M_r} = O(n/m)$ as claimed.
 \end{proof}
+}
 
-Putting everything together, we obtain the following result.
+We are ready to state our main result. As mentioned in Section~\ref{section:Smaller Polygon}, the running time of our algorithm is $T(n,m) \leq T(n/2, m/2) + I(n,m)$, where $I(n, m)$ is the time to insert the red sites. By Theorem~\ref{thm:Final Theorem}, and by our assumption that $m\leq n$, $I(n,m) = O(n + m)$. Therefore, by solving the recurrence we obtain the following result.
 
 \begin{theorem}
 Let  $P$ be a simple polygon and let let $\s$ be a set of $m\geq 3$ weighted sites contained in $V(P)$.
-We can compute the FVD of $\s$ in $P$ in $O(n)$ time. 
+We can compute the FVD of $\s$ in $P$ in $O(n+m)$ time. 
 \end{theorem}
 
 
-{\small
-\bibliographystyle{abbrvnat}
-\bibliography{Geodesic}}
+
+%\bibliographystyle{abbrv}
+\bibliography{Geodesic}
 
 \newpage 
 \appendix
 \section{Missing proofs.}
-\setcounter{theorem}{6}
+\setcounter{theorem}{5}
 \ProofApexFVD
-\setcounter{theorem}{9}
+\setcounter{theorem}{8}
 \ProofPropertiesOfQ
-\setcounter{theorem}{12}
+\ProofSPMForSitesR
+\pagebreak
+\setcounter{theorem}{11}
 \ProofDistanceCoincideCell
-\setcounter{theorem}{13}
+\setcounter{theorem}{12}
 \ProofShadowPoints
-\setcounter{theorem}{15}
+\setcounter{theorem}{14}
 \ProofPatchContainsVcell
-\setcounter{theorem}{16}
+\setcounter{theorem}{15}
 \ProofStructureEnvelope
-\setcounter{theorem}{17}
+\setcounter{theorem}{16}
 \ProofPatchInGr
-\setcounter{theorem}{19}
+\setcounter{theorem}{17}
+\ProofTimeInsertionR
+\setcounter{theorem}{18}
 \ProofComplexityEnvelope
+\setcounter{theorem}{19}
+\ProofFinalTheorem
 %\ProofSpmSupersetOfCell
 %\ProofTimeInsertRedSite
 %\ProofComplexityEnvelope
